@@ -64,3 +64,15 @@ def tech_stack(request: AnalysisRequest):
         "repository": request.repository,
         "tech_stack": result
     }
+
+@router.post("/architecture")
+def architecture(request: AnalysisRequest):
+
+    architecture = analyzer.architecture(
+        request.repository
+    )
+
+    return {
+        "repository": request.repository,
+        "architecture": architecture
+    }

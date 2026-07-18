@@ -4,6 +4,7 @@ from app.core.parser import parse_repository
 from app.core.file_reader import read_file
 from app.core.llm import ask_llm
 from app.analyzers.tech_stack_detector import TechStackDetector
+from app.analyzers.architecture_analyzer import ArchitectureAnalyzer
 
 
 class RepositoryAnalyzer:
@@ -144,3 +145,9 @@ Folder Content:
         detector = TechStackDetector()
 
         return detector.detect(repository)
+    
+    def architecture(self, repository: str):
+
+        analyzer = ArchitectureAnalyzer()
+
+        return analyzer.generate(repository)
