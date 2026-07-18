@@ -85,3 +85,54 @@ Source Code:
 """
 
         return ask_llm(prompt)
+    
+    
+    def explain_folder(self, repository: str, folder_path: str):
+
+        folder = Path("repos") / repository / folder_path
+
+        if not folder.exists():
+            return "Folder not found."
+
+        context = ""
+
+        for file in folder.rglob("*"):
+
+            if not file.is_file():
+                continue
+
+            try:
+                content = file.read_text(
+                    encoding="utf-8",
+                    errors="ignore"
+                )
+            except Exception:
+                continue
+
+            context += f"""
+File: {file.relative_to(folder)}
+
+{content[:1000]}
+
+-------------------------
+"""
+
+        prompt = f"""
+You are an expert software architect.
+
+Analyze this folder.
+
+Explain:
+
+1. Folder responsibility
+2. Major files
+3. How the files interact
+4. Important classes/functions
+5. How this folder fits into the repository
+
+Folder Content:
+
+{context}
+"""
+
+        return ask_llm(prompt)

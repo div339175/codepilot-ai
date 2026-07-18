@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from app.schemas.analysis import (
     AnalysisRequest,
     FileAnalysisRequest,
+    FolderAnalysisRequest
 )
 from app.analyzers.repository_analyzer import RepositoryAnalyzer
 
@@ -36,4 +37,18 @@ def analyze_file(request: FileAnalysisRequest):
         "repository": request.repository,
         "file": request.file_path,
         "analysis": explanation,
+    }
+
+@router.post("/folder")
+def analyze_folder(request: FolderAnalysisRequest):
+
+    explanation = analyzer.explain_folder(
+        request.repository,
+        request.folder_path
+    )
+
+    return {
+        "repository": request.repository,
+        "folder": request.folder_path,
+        "analysis": explanation
     }
