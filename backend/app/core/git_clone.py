@@ -14,7 +14,7 @@ REPO_DIR.mkdir(exist_ok=True)
 
 def clone_repository(repo_url: str):
 
-    repo_name = repo_url.rstrip("/").split("/")[-1]
+    repo_name = Path(repo_url).stem
 
     destination = REPO_DIR / repo_name
 

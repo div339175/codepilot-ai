@@ -5,6 +5,7 @@ from app.core.file_reader import read_file
 from app.core.llm import ask_llm
 from app.analyzers.tech_stack_detector import TechStackDetector
 from app.analyzers.architecture_analyzer import ArchitectureAnalyzer
+from app.analyzers.api_doc_analyzer import APIDocumentationAnalyzer
 
 
 class RepositoryAnalyzer:
@@ -149,5 +150,11 @@ Folder Content:
     def architecture(self, repository: str):
 
         analyzer = ArchitectureAnalyzer()
+
+        return analyzer.generate(repository)
+    
+    def api_documentation(self, repository: str):
+
+        analyzer = APIDocumentationAnalyzer()
 
         return analyzer.generate(repository)

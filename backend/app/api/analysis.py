@@ -76,3 +76,15 @@ def architecture(request: AnalysisRequest):
         "repository": request.repository,
         "architecture": architecture
     }
+
+@router.post("/api-docs")
+def api_docs(request: AnalysisRequest):
+
+    docs = analyzer.api_documentation(
+        request.repository
+    )
+
+    return {
+        "repository": request.repository,
+        "documentation": docs
+    }
