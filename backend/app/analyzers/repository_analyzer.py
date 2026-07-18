@@ -1,0 +1,52 @@
+from pathlib import Path
+
+from app.core.parser import parse_repository
+from app.core.llm import ask_llm
+
+
+class RepositoryAnalyzer:
+
+    def generate_summary(self, repository: str):
+
+        repo_path = Path("repos") / repository
+
+        files = parse_repository(repo_path)
+
+        context = ""
+
+        for file in files:
+
+            if not file.content.strip():
+                continue
+
+            context += f"""
+File: {file.path}
+
+Language: {file.language}
+
+Content:
+{file.content[:1500]}
+
+-----------------------------------
+"""
+
+        prompt = f"""
+You are an expert software architect.
+
+Analyze the following repository.
+
+Provide:
+
+1. Project purpose
+2. Main features
+3. Technologies used
+4. High-level architecture
+5. Important folders
+6. Overall workflow
+
+Repository:
+
+{context}
+"""
+
+        return ask_llm(prompt)
