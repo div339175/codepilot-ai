@@ -4,10 +4,16 @@ from app.core.embeddings import generate_embedding
 from app.core.vector_store import VectorStore
 
 
-def semantic_search(query: str, top_k: int = 5):
+def semantic_search(
+    repository: str,
+    query: str,
+    top_k: int = 5
+):
 
     store = VectorStore()
-    store.load()
+
+    # Load the FAISS index for the specified repository
+    store.load(repository)
 
     query_embedding = generate_embedding(query)
 
@@ -32,6 +38,7 @@ def semantic_search(query: str, top_k: int = 5):
 
         results.append(
             {
+                "repository": metadata["repository"],
                 "score": float(distance),
                 "file": metadata["file"],
                 "language": metadata["language"],

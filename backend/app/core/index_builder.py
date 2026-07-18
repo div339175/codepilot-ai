@@ -8,6 +8,9 @@ from app.core.vector_store import VectorStore
 
 def build_index(repo_path: Path):
 
+    # Repository name (e.g., codepilot-ai)
+    repository = repo_path.name
+
     store = VectorStore()
 
     files = parse_repository(repo_path)
@@ -23,12 +26,14 @@ def build_index(repo_path: Path):
             store.add(
                 embedding,
                 {
+                    "repository": repository,
                     "file": file.path,
                     "language": file.language,
                     "chunk": chunk
                 }
             )
 
-    store.save()
+    # Save inside indexes/<repository>/
+    store.save(repository)
 
     return store

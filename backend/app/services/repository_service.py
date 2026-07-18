@@ -6,15 +6,25 @@ class RepositoryService:
 
     ...
 
-    def ask(self, question: str):
+    def ask(
+        self,
+        repository: str,
+        question: str
+    ):
 
-        results = semantic_search(question, top_k=5)
+        results = semantic_search(
+            repository=repository,
+            query=question,
+            top_k=5
+        )
 
         context = ""
 
         for item in results:
 
             context += f"""
+Repository: {item['repository']}
+
 File: {item['file']}
 
 Language: {item['language']}
@@ -31,8 +41,7 @@ You are an expert software engineer.
 
 Answer ONLY using the provided repository context.
 
-If the answer is not present,
-say:
+If the answer is not present, say:
 
 "I couldn't find this information inside the repository."
 

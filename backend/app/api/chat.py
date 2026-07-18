@@ -14,9 +14,13 @@ service = RepositoryService()
 @router.post("/")
 def chat(request: ChatRequest):
 
-    answer = service.ask(request.question)
+    answer = service.ask(
+        repository=request.repository,
+        question=request.question
+    )
 
     return {
+        "repository": request.repository,
         "question": request.question,
         "answer": answer
     }
