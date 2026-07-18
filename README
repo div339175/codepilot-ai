@@ -1,132 +1,284 @@
 # 🚀 CodePilot AI
 
-CodePilot AI is an AI-powered software engineering assistant that understands GitHub repositories using semantic search and vector embeddings.
+An AI-powered code intelligence platform that understands GitHub repositories using Retrieval-Augmented Generation (RAG), semantic search, vector databases, and Gemini.
 
-Instead of keyword search, CodePilot AI indexes an entire repository into vector embeddings, enabling developers to ask natural language questions about any codebase.
+Instead of simply answering questions, CodePilot AI analyzes an entire codebase, explains architecture, generates documentation, detects technologies, and helps developers understand unfamiliar repositories.
 
 ---
 
-## ✨ Features
+# ✨ Features
 
-### ✅ Milestone 1
+## Repository Management
+
 - Clone any public GitHub repository
-- REST API using FastAPI
-- Automatic repository storage
+- Parse source code
+- Read file contents
+- Support multiple programming languages
 
-### ✅ Milestone 2
-- Recursive repository scanning
-- Ignore unnecessary directories
-- Filter supported source code files
-- Extract file metadata
-- Repository parsing API
+---
 
-### ✅ Milestone 3
-- Read repository source code
-- Split large files into chunks
-- Generate embeddings using SentenceTransformers
-- Store embeddings in FAISS
+## AI Search
+
 - Semantic code search
-- Search API
+- FAISS vector database
+- SentenceTransformer embeddings
+- Retrieve relevant code snippets
+- Repository Question & Answer using Gemini
 
 ---
 
-## 🏗️ Project Architecture
+## AI Repository Analysis
+
+### Repository Summary
+
+Generate a high-level overview of the repository.
+
+Includes:
+
+- Project purpose
+- Features
+- Technologies
+- Architecture
+- Important folders
+
+---
+
+### File Explanation
+
+Explain any source file.
+
+Includes:
+
+- Purpose
+- Classes
+- Functions
+- Algorithms
+- Dependencies
+- Time complexity
+
+---
+
+### Folder Explanation
+
+Explain responsibilities of an entire folder.
+
+Example:
 
 ```
-GitHub Repository
-        │
-        ▼
-Clone Repository
-        │
-        ▼
-Repository Parser
-        │
-        ▼
-Read File Contents
-        │
-        ▼
-Chunk Source Code
-        │
-        ▼
-Generate Embeddings
-        │
-        ▼
-FAISS Vector Store
-        │
-        ▼
-Semantic Search
+app/core
+```
 
+↓
 
+- Parser
+- Chunker
+- Embeddings
+- Vector Store
+- Search
+
+---
+
+### Tech Stack Detection
+
+Automatically detects
+
+- Programming Languages
+- Frameworks
+- Databases
+- Package Managers
+- Deployment Tools
+
+---
+
+### Architecture Analysis
+
+AI-generated architecture documentation.
+
+Includes
+
+- High-level overview
+- Components
+- Workflow
+- Data flow
+- Mermaid Diagram
+
+---
+
+### API Documentation Generator
+
+Automatically documents backend APIs.
+
+Supports
+
+- FastAPI
+- Flask
+- Express (basic)
+
+Generates
+
+- HTTP Method
+- Route
+- Description
+- Request Body
+- Response
+- Status Codes
+
+---
+
+# 🏗 Architecture
+
+```
+User
+   │
+   ▼
+FastAPI
+   │
+Repository Service
+   │
+──────────────────────────────
+│ Clone Repository
+│ Parse Repository
+│ Chunk Files
+│ Generate Embeddings
+│ Build FAISS Index
+│ Semantic Search
+│ Gemini
+──────────────────────────────
+   │
+AI Analysis
 ```
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠 Tech Stack
+
+Backend
 
 - Python
 - FastAPI
-- GitPython
-- Sentence Transformers
-- FAISS
-- NumPy
 - Pydantic
 
+AI
+
+- Gemini 2.5 Flash
+- SentenceTransformers
+
+Vector Database
+
+- FAISS
+
+Libraries
+
+- GitPython
+- python-dotenv
+
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
-```
 backend/
+
+```
+app/
 │
-├── app/
-│   ├── api/
-│   ├── core/
-│   ├── schemas/
-│   └── services/
+├── api/
+├── analyzers/
+├── core/
+├── schemas/
+├── services/
 │
-├── repos/
-│
-├── vector_store/
-│
-├── requirements.txt
-│
-└── main.py
+repos/
 ```
 
 ---
 
-## 🚀 Getting Started
+# 📌 API Endpoints
 
-Install dependencies
+## Repository
 
-```bash
-pip install -r requirements.txt
-```
-
-Run the backend
-
-```bash
-uvicorn main:app --reload
-```
-
-Open Swagger
-
-```
-http://127.0.0.1:8000/docs
-```
+POST /clone
 
 ---
 
-## 📅 Roadmap
+## Parser
 
-- ✅ Repository Cloning
-- ✅ Repository Parser
-- ✅ Semantic Search
-- 🔜 Repository Q&A using LLM
-- 🔜 Documentation Agent
-- 🔜 Code Review Agent
-- 🔜 Test Generation Agent
-- 🔜 Multi-Agent System using LangGraph
+POST /parser
+
+---
+
+## Search
+
+POST /search
+
+---
+
+## Chat
+
+POST /chat
+
+---
+
+## Analysis
+
+POST /analysis
+
+POST /analysis/file
+
+POST /analysis/folder
+
+POST /analysis/tech-stack
+
+POST /analysis/architecture
+
+POST /analysis/api-docs
+
+---
+
+# 📈 Roadmap
+
+## ✅ Milestone 1
+
+- GitHub Repository Cloning
+
+---
+
+## ✅ Milestone 2
+
+- Repository Parser
+
+---
+
+## ✅ Milestone 3
+
+- Embeddings
+- FAISS
+- Semantic Search
+
+---
+
+## ✅ Milestone 4
+
+- Repository Chat (Gemini)
+
+---
+
+## ✅ Milestone 5
+
+- Repository Summary
+- File Analysis
+- Folder Analysis
+- Tech Stack Detection
+- Architecture Analysis
+- API Documentation Generator
+
+---
+
+## 🚧 Milestone 6 (In Progress)
+
+- Multiple Repository Management
+- Cross Repository Search
+- Repository Comparison
+- Repository Dashboard
 
 ---
 

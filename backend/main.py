@@ -4,6 +4,7 @@ from app.api.parser import router as parser_router
 from app.api.search import router as search_router
 from app.api.chat import router as chat_router
 from app.api.analysis import router as analysis_router
+from app.api.repositories import router as repositories_router
 
 app = FastAPI(title="CodePilot AI")
 
@@ -12,3 +13,4 @@ app.include_router(parser_router)
 app.include_router(search_router)
 app.include_router(chat_router)
 app.include_router(analysis_router)
+app.include_router(repositories_router)
