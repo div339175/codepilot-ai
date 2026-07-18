@@ -14,7 +14,7 @@ def build_index(repo_path: Path):
 
     for file in files:
 
-        chunks = chunk_text(file["content"])
+        chunks = chunk_text(file.content)
 
         for chunk in chunks:
 
@@ -23,8 +23,8 @@ def build_index(repo_path: Path):
             store.add(
                 embedding,
                 {
-                    "file": file["path"],
-                    "language": file["language"],
+                    "file": file.path,
+                    "language": file.language,
                     "chunk": chunk
                 }
             )

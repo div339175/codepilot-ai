@@ -1,5 +1,6 @@
 from pathlib import Path
 from app.core.file_reader import read_file
+from app.schemas.file import FileMetadata
 
 # Phase 1 — Scanner
 
@@ -113,20 +114,14 @@ def file_metadata(file: Path,repo_path: Path):
 
     extension = file.suffix.lower()
 
-    return {
-
-    "name": file.name,
-
-    "path": str(file.relative_to(repo_path)),
-
-    "extension": extension,
-
-    "language": LANGUAGE_MAP.get(extension, "unknown"),
-
-    "size": file.stat().st_size,
-
-    "content": read_file(file)
-}
+    return FileMetadata(
+        name=file.name,
+        path=str(file.relative_to(repo_path)),
+        extension=extension,
+        language=LANGUAGE_MAP.get(extension, "unknown"),
+        size=file.stat().st_size,
+        content=read_file(file)
+)
 
 # Phase 3
 
