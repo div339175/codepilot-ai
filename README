@@ -1,0 +1,43 @@
+# CodePilot AI
+
+CodePilot AI is a Multi-Agent Software Engineering Assistant designed to understand GitHub repositories and help developers with code analysis, documentation, bug detection, and automated software engineering tasks.
+
+## 🚀 Current Progress
+
+### ✅ Milestone 1 - Repository Cloner
+
+Implemented features:
+
+- Clone any public GitHub repository
+- FastAPI REST API
+- GitPython integration
+- Automatic repository management
+- Error handling
+- Swagger API documentation
+
+## 🛠️ Tech Stack
+
+- Python
+- FastAPI
+- GitPython
+- Pydantic
+
+## Project Roadmap
+
+- [x] Milestone 1 - Repository Cloner
+- [ ] Milestone 2 - Repository Parser
+- [ ] Milestone 3 - Code Chunking
+- [ ] Milestone 4 - Embeddings + Vector Database
+- [ ] Milestone 5 - Repository Chat
+- [ ] Milestone 6 - Multi-Agent Architecture
+- [ ] Milestone 7 - Documentation Agent
+- [ ] Milestone 8 - Bug Detection Agent
+- [ ] Milestone 9 - Testing Agent
+- [ ] Milestone 10 - Frontend Dashboard
+
+## Getting Started
+
+```bash
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
