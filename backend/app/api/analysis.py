@@ -1,6 +1,9 @@
 from fastapi import APIRouter
 
-from app.schemas.analysis import AnalysisRequest
+from app.schemas.analysis import (
+    AnalysisRequest,
+    FileAnalysisRequest,
+)
 from app.analyzers.repository_analyzer import RepositoryAnalyzer
 
 router = APIRouter(
@@ -19,4 +22,18 @@ def analyze(request: AnalysisRequest):
     return {
         "repository": request.repository,
         "summary": summary
+    }
+
+@router.post("/file")
+def analyze_file(request: FileAnalysisRequest):
+
+    explanation = analyzer.explain_file(
+        request.repository,
+        request.file_path,
+    )
+
+    return {
+        "repository": request.repository,
+        "file": request.file_path,
+        "analysis": explanation,
     }
