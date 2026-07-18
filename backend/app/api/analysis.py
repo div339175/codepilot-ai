@@ -1,11 +1,12 @@
 from fastapi import APIRouter
-
 from app.schemas.analysis import (
     AnalysisRequest,
     FileAnalysisRequest,
     FolderAnalysisRequest
 )
 from app.analyzers.repository_analyzer import RepositoryAnalyzer
+from app.schemas.compare import CompareRequest
+from app.analyzers.repository_comparator import RepositoryComparator
 
 router = APIRouter(
     prefix="/analysis",
@@ -87,4 +88,18 @@ def api_docs(request: AnalysisRequest):
     return {
         "repository": request.repository,
         "documentation": docs
+    }
+
+repository_comparator = RepositoryComparator()
+
+@router.post("/compare")
+def compare_repositories(request: CompareRequest):
+
+    result = repository_comparator.compare(
+        request.repository_1,
+        request.repository_2
+    )
+
+    return {
+        "comparison": result
     }
