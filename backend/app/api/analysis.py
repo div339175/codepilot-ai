@@ -52,3 +52,15 @@ def analyze_folder(request: FolderAnalysisRequest):
         "folder": request.folder_path,
         "analysis": explanation
     }
+
+@router.post("/tech-stack")
+def tech_stack(request: AnalysisRequest):
+
+    result = analyzer.detect_tech_stack(
+        request.repository
+    )
+
+    return {
+        "repository": request.repository,
+        "tech_stack": result
+    }

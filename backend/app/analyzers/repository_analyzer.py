@@ -3,6 +3,7 @@ from pathlib import Path
 from app.core.parser import parse_repository
 from app.core.file_reader import read_file
 from app.core.llm import ask_llm
+from app.analyzers.tech_stack_detector import TechStackDetector
 
 
 class RepositoryAnalyzer:
@@ -86,7 +87,7 @@ Source Code:
 
         return ask_llm(prompt)
     
-    
+
     def explain_folder(self, repository: str, folder_path: str):
 
         folder = Path("repos") / repository / folder_path
@@ -136,3 +137,10 @@ Folder Content:
 """
 
         return ask_llm(prompt)
+    
+    
+    def detect_tech_stack(self, repository: str):
+
+        detector = TechStackDetector()
+
+        return detector.detect(repository)

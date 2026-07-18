@@ -13,3 +13,4 @@ class FileAnalysisRequest(BaseModel):
 class FolderAnalysisRequest(BaseModel):
     repository: str
     folder_path: str
+
