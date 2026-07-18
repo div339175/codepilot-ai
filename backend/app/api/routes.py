@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.models.repository import RepositoryRequest
+from app.schemas.repository import RepositoryRequest
 from app.core.git_clone import clone_repository
 
 router = APIRouter()
