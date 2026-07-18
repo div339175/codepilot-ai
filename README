@@ -1,43 +1,218 @@
-# CodePilot AI
+# 🚀 CodePilot AI
 
-CodePilot AI is a Multi-Agent Software Engineering Assistant designed to understand GitHub repositories and help developers with code analysis, documentation, bug detection, and automated software engineering tasks.
+> An AI-powered Software Engineering Assistant that understands GitHub repositories using semantic search and AI agents.
 
-## 🚀 Current Progress
+CodePilot AI is designed to help developers quickly understand unfamiliar codebases. It clones repositories, analyzes source code, generates embeddings, performs semantic search, and will eventually answer questions about any GitHub project using AI agents.
 
-### ✅ Milestone 1 - Repository Cloner
+---
 
-Implemented features:
+# 📖 Why CodePilot AI?
 
+Understanding a new codebase is one of the most time-consuming tasks for developers.
+
+Developers often spend hours searching through hundreds of files just to answer questions like:
+
+- Where is authentication implemented?
+- Which files handle database operations?
+- How does the API flow work?
+- Where is the payment logic?
+
+CodePilot AI aims to solve this problem by converting an entire GitHub repository into an AI-searchable knowledge base.
+
+---
+
+# ✨ Features
+
+## ✅ Repository Cloner
 - Clone any public GitHub repository
-- FastAPI REST API
-- GitPython integration
 - Automatic repository management
-- Error handling
-- Swagger API documentation
+- GitPython integration
+- FastAPI REST API
+- Swagger documentation
 
-## 🛠️ Tech Stack
+---
 
+## ✅ Repository Parser
+- Recursively scan repository structure
+- Ignore unnecessary directories (`.git`, `venv`, `node_modules`, etc.)
+- Filter supported source code and configuration files
+- Extract metadata for every file
+- Parse repositories through a REST API
+
+---
+
+## 🚧 Repository Reader *(Current Work)*
+- Safely read source code files
+- UTF-8 support with error handling
+- Prepare repository for code chunking
+
+---
+
+# 🏗️ Current Architecture
+
+```text
+GitHub Repository
+        │
+        ▼
+Repository Cloner ✅
+        │
+        ▼
+Repository Parser ✅
+        │
+        ▼
+Repository Reader 🚧
+        │
+        ▼
+Code Chunker
+        │
+        ▼
+Embedding Generator
+        │
+        ▼
+FAISS Vector Database
+        │
+        ▼
+Semantic Search
+        │
+        ▼
+AI Agents
+```
+
+---
+
+# 🛠️ Tech Stack
+
+### Backend
 - Python
 - FastAPI
 - GitPython
 - Pydantic
+- pathlib
 
-## Project Roadmap
+### AI (Upcoming)
+- Sentence Transformers
+- FAISS
+- LangGraph
+- Google Gemini / OpenAI
 
-- [x] Milestone 1 - Repository Cloner
-- [ ] Milestone 2 - Repository Parser
-- [ ] Milestone 3 - Code Chunking
-- [ ] Milestone 4 - Embeddings + Vector Database
-- [ ] Milestone 5 - Repository Chat
-- [ ] Milestone 6 - Multi-Agent Architecture
-- [ ] Milestone 7 - Documentation Agent
-- [ ] Milestone 8 - Bug Detection Agent
-- [ ] Milestone 9 - Testing Agent
-- [ ] Milestone 10 - Frontend Dashboard
+### Frontend (Upcoming)
+- React
+- Tailwind CSS
 
-## Getting Started
+---
+
+# 📁 Project Structure
+
+```text
+backend/
+│
+├── app/
+│   ├── api/
+│   ├── core/
+│   ├── schemas/
+│
+├── repos/
+├── main.py
+└── requirements.txt
+```
+
+---
+
+# 🌐 API Endpoints
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/clone` | Clone a public GitHub repository |
+| POST | `/parser/parse` | Parse repository metadata |
+
+More endpoints will be added as the project evolves.
+
+---
+
+# 🗺️ Development Roadmap
+
+## ✅ Completed
+
+- [x] GitHub Repository Cloning
+- [x] Repository Parsing
+
+## 🚧 In Progress
+
+- [x] Repository File Reader
+- [ ] Code Chunking
+
+## 📅 Upcoming
+
+- [ ] Embedding Generation
+- [ ] FAISS Vector Store
+- [ ] Semantic Code Search
+- [ ] Repository Q&A
+- [ ] Multi-Agent Architecture
+- [ ] Documentation Agent
+- [ ] Bug Detection Agent
+- [ ] Unit Test Generation
+- [ ] React Dashboard
+
+---
+
+# 🚀 Getting Started
+
+## Clone the repository
+
+```bash
+git clone https://github.com/<your-username>/codepilot-ai.git
+```
+
+## Install dependencies
 
 ```bash
 pip install -r requirements.txt
+```
+
+## Run the application
+
+```bash
 uvicorn main:app --reload
 ```
+
+## Open Swagger UI
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# 🎯 Future Vision
+
+CodePilot AI aims to become an intelligent software engineering assistant capable of:
+
+- Understanding any GitHub repository
+- Answering questions about codebases
+- Explaining project architecture
+- Detecting bugs
+- Generating documentation
+- Writing unit tests
+- Assisting developers with AI-powered software engineering workflows
+
+---
+
+# 📌 Project Status
+
+🚧 **Actively under development**
+
+Current Stage:
+
+**Milestone 3 — Repository Understanding**
+
+---
+
+## 🤝 Contributing
+
+Contributions, ideas, and feedback are welcome. As the project matures, contribution guidelines will be added.
+
+---
+
+## 📄 License
+
+This project is currently intended for educational and portfolio purposes. A formal open-source license will be added in a future release.
