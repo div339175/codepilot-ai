@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Oval } from "react-loader-spinner";
 
 import { askRepository } from "../api/chat";
 
@@ -6,6 +7,7 @@ import type { ChatResponse } from "../types/chat";
 import RepositorySelector from "../components/RepositorySelector";
 import ChatMessage from "../components/ChatMessage";
 import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 function Chat() {
 
@@ -83,27 +85,36 @@ function Chat() {
                     <button
                         onClick={sendMessage}
                         disabled={loading}
-                        className="bg-blue-600 text-white px-5 py-2 rounded mt-4 disabled:opacity-50"
+                        className="bg-blue-600 text-white px-5 py-2 rounded mt-4 disabled:opacity-50 flex items-center gap-2"
                     >
+                        {loading && (
+                            <Oval
+                                height={18}
+                                width={18}
+                                strokeWidth={4}
+                                visible={true}
+                            />
+                        )}
 
-                    {loading ? "Thinking..." : "Send"}
-
-                </button>
+                        {loading ? "Thinking..." : "Send"}
+                    </button>
 
             </div>
 
             <div className="space-y-6 mt-8">
 
-            {conversation.map((chat, index) => (
+                {loading && <Loader />}
 
-                 <ChatMessage
-                    key={index}
-                    question={chat.question}
-                    answer={chat.answer}
-                    sources={chat.sources}
-                />
+                {conversation.map((chat,index)=>(
 
-             ))}                
+                    <ChatMessage
+                        key={index}
+                        question={chat.question}
+                        answer={chat.answer}
+                        sources={chat.sources}
+                    />
+
+                ))}
 
             </div>
 

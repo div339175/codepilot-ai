@@ -3,6 +3,7 @@ import { semanticSearch } from "../api/search";
 import type { SearchResult } from "../types/search";
 import RepositorySelector from "../components/RepositorySelector";
 import toast from "react-hot-toast";
+import { Oval } from "react-loader-spinner";
 
 function Search() {
 
@@ -68,8 +69,18 @@ function Search() {
 
                 <button
                     onClick={handleSearch}
-                    className="bg-blue-600 text-white px-6 py-2 rounded mt-4"
+                    disabled={loading}
+                    className="bg-blue-600 text-white px-6 py-2 rounded mt-4 flex items-center gap-2 disabled:opacity-50"
                 >
+                    {loading && (
+                        <Oval
+                            height={18}
+                            width={18}
+                            strokeWidth={4}
+                            visible={true}
+                        />
+                    )}
+
                     {loading ? "Searching..." : "Search"}
                 </button>
 

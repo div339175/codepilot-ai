@@ -5,6 +5,7 @@ import { reviewRepository } from "../api/review";
 import type { Review } from "../types/review";
 import RepositorySelector from "../components/RepositorySelector";
 import toast from "react-hot-toast";
+import { Oval } from "react-loader-spinner";
 
 function ReviewPage() {
 
@@ -62,11 +63,19 @@ function ReviewPage() {
                 <button
 
                     onClick={generateReview}
-
+                    disabled={loading}
                     className="bg-blue-600 text-white px-6 py-2 rounded mt-4"
 
                 >
-
+                    {loading && (
+                        <Oval
+                            height={18}
+                            width={18}
+                            strokeWidth={4}
+                            visible={true}
+                        />
+                    )}
+                    
                     {loading ? "Generating..." : "Generate Review"}
 
                 </button>
