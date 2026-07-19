@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Oval } from "react-loader-spinner";
-
 import { askRepository } from "../api/chat";
-
 import type { ChatResponse } from "../types/chat";
 import RepositorySelector from "../components/RepositorySelector";
 import ChatMessage from "../components/ChatMessage";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
+import { useEffect, useRef } from "react";
 
 function Chat() {
 
@@ -18,6 +17,13 @@ function Chat() {
     const [conversation, setConversation] = useState<ChatResponse[]>([]);
 
     const [loading, setLoading] = useState(false);
+    const bottomRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }, [conversation]);
 
     async function sendMessage() {
 
@@ -106,15 +112,17 @@ function Chat() {
                 {loading && <Loader />}
 
                 {conversation.map((chat,index)=>(
-
+            
                     <ChatMessage
                         key={index}
                         question={chat.question}
                         answer={chat.answer}
                         sources={chat.sources}
                     />
+                    
 
                 ))}
+                <div ref={bottomRef} />
 
             </div>
 
