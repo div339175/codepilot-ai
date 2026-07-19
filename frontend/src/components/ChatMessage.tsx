@@ -1,4 +1,3 @@
-import ReactMarkdown from "react-markdown";
 import MarkdownRenderer from "./MarkdownRenderer";
 
 interface Source {
@@ -10,12 +9,14 @@ interface Props {
     question: string;
     answer: string;
     sources?: Source[];
+    timestamp?: string;
 }
 
 function ChatMessage({
     question,
     answer,
     sources,
+    timestamp,
 }: Props) {
     return (
         <div className="space-y-6">
@@ -29,6 +30,11 @@ function ChatMessage({
                     <h3 className="font-bold mb-2">
                         🙂 You
                     </h3>
+                    <p className="text-xs opacity-70 mt-1">
+
+                    {timestamp}
+
+                    </p>
 
                     {question}
 
@@ -45,6 +51,11 @@ function ChatMessage({
                     <h3 className="font-bold mb-4">
                         🤖 CodePilot AI
                     </h3>
+                    <p className="text-xs opacity-70 mt-1">
+
+                        {timestamp}
+
+                    </p>
 
                     <div className="prose max-w-none">
 

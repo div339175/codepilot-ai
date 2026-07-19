@@ -16,4 +16,6 @@ export interface ChatResponse {
 
     sources?: Source[];
 
+    timestamp?: string;
+
 }

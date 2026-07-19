@@ -40,7 +40,13 @@ function Chat() {
 
             setConversation(prev => [
                 ...prev,
-                response
+                {
+                    ...response,
+                    timestamp: new Date().toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    }),
+                },
             ]);
 
             setQuestion("");
@@ -67,7 +73,7 @@ function Chat() {
 
             </h1>
 
-            <div className="bg-white rounded-xl shadow p-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6 border">
 
                 <RepositorySelector
                     value={repository}
@@ -76,7 +82,7 @@ function Chat() {
 
                 <textarea
 
-                    className="border rounded w-full p-3"
+                    className="border rounded-xl w-full p-4 mt-4 resize-none"
 
                     rows={4}
 
@@ -91,7 +97,7 @@ function Chat() {
                     <button
                         onClick={sendMessage}
                         disabled={loading}
-                        className="bg-blue-600 text-white px-5 py-2 rounded mt-4 disabled:opacity-50 flex items-center gap-2"
+                        className="mt-4 px-6 py-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
                     >
                         {loading && (
                             <Oval
@@ -110,6 +116,19 @@ function Chat() {
             <div className="space-y-6 mt-8">
 
                 {loading && <Loader />}
+                {loading && (
+
+                <div className="flex items-center gap-3">
+
+                    <div className="bg-white rounded-xl shadow px-5 py-4">
+
+                        🤖 CodePilot AI is typing...
+
+                    </div>
+
+                </div>
+
+            )}
 
                 {conversation.map((chat,index)=>(
             
@@ -118,6 +137,7 @@ function Chat() {
                         question={chat.question}
                         answer={chat.answer}
                         sources={chat.sources}
+                        timestamp={chat.timestamp}
                     />
                     
 
