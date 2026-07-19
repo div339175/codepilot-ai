@@ -13,11 +13,13 @@ router = APIRouter(
 def search(request: SearchRequest):
 
     results = semantic_search(
-        request.query,
-        request.top_k
+        repository=request.repository,
+        query=request.query,
+        top_k=request.top_k
     )
 
     return {
+        "repository": request.repository,
         "query": request.query,
         "results": results
     }
