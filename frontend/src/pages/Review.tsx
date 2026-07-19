@@ -3,6 +3,8 @@ import { useState } from "react";
 import { reviewRepository } from "../api/review";
 
 import type { Review } from "../types/review";
+import RepositorySelector from "../components/RepositorySelector";
+import toast from "react-hot-toast";
 
 function ReviewPage() {
 
@@ -23,12 +25,13 @@ function ReviewPage() {
             const data = await reviewRepository(repository);
 
             setReview(data);
+            toast.success("Review Generated");
 
         } catch (err) {
 
             console.error(err);
 
-            alert("Review Failed");
+            toast.error("Review Failed");
 
         }
 
@@ -48,15 +51,11 @@ function ReviewPage() {
 
             <div className="bg-white rounded-xl shadow p-6 mb-8">
 
-                <input
-
-                    className="border rounded w-full p-3"
-
-                    placeholder="Repository"
+                <RepositorySelector
 
                     value={repository}
 
-                    onChange={(e)=>setRepository(e.target.value)}
+                    onChange={setRepository}
 
                 />
 

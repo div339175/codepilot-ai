@@ -3,6 +3,9 @@ import { useState } from "react";
 import { askRepository } from "../api/chat";
 
 import type { ChatResponse } from "../types/chat";
+import RepositorySelector from "../components/RepositorySelector";
+import ChatMessage from "../components/ChatMessage";
+import toast from "react-hot-toast";
 
 function Chat() {
 
@@ -33,17 +36,17 @@ function Chat() {
             ]);
 
             setQuestion("");
+            toast.success("Response Generated");
 
         } catch (err) {
 
             console.error(err);
 
-            alert("Chat Failed");
+            toast.error("Chat Failed");
 
-        }
-
+        }finally{
         setLoading(false);
-
+        }
     }
 
     return (
@@ -58,16 +61,9 @@ function Chat() {
 
             <div className="bg-white rounded-xl shadow p-6">
 
-                <input
-
-                    className="border rounded w-full p-3 mb-4"
-
-                    placeholder="Repository"
-
+                <RepositorySelector
                     value={repository}
-
-                    onChange={(e)=>setRepository(e.target.value)}
-
+                    onChange={setRepository}
                 />
 
                 <textarea
@@ -84,13 +80,11 @@ function Chat() {
 
                 />
 
-                <button
-
-                    onClick={sendMessage}
-
-                    className="bg-blue-600 text-white px-5 py-2 rounded mt-4"
-
-                >
+                    <button
+                        onClick={sendMessage}
+                        disabled={loading}
+                        className="bg-blue-600 text-white px-5 py-2 rounded mt-4 disabled:opacity-50"
+                    >
 
                     {loading ? "Thinking..." : "Send"}
 
@@ -100,59 +94,16 @@ function Chat() {
 
             <div className="space-y-6 mt-8">
 
-                {conversation.map((chat,index)=>(
+            {conversation.map((chat, index) => (
 
-                    <div
+                 <ChatMessage
+                    key={index}
+                    question={chat.question}
+                    answer={chat.answer}
+                    sources={chat.sources}
+                />
 
-                        key={index}
-
-                        className="bg-white rounded-xl shadow p-5"
-
-                    >
-
-                        <h2 className="font-bold">
-
-                            ❓ {chat.question}
-
-                        </h2>
-
-                        <div className="mt-4 whitespace-pre-wrap">
-
-                            🤖 {chat.answer}
-
-                        </div>
-
-                        {chat.sources && (
-
-                            <div className="mt-5">
-
-                                <h3 className="font-semibold">
-
-                                    Sources
-
-                                </h3>
-
-                                <ul className="list-disc pl-6">
-
-                                    {chat.sources.map((item,i)=>(
-
-                                        <li key={i}>
-
-                                            {item.file}
-
-                                        </li>
-
-                                    ))}
-
-                                </ul>
-
-                            </div>
-
-                        )}
-
-                    </div>
-
-                ))}
+             ))}                
 
             </div>
 

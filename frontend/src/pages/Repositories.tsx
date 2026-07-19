@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import {
     getRepositories,
@@ -21,7 +22,6 @@ function Repositories() {
 
             const data = await getRepositories();
 
-            // 🔄 UPDATE THIS IF YOUR BACKEND RETURNS A DIFFERENT SHAPE
             setRepositories(data.repositories);
 
         } catch (err) {
@@ -52,7 +52,7 @@ function Repositories() {
 
             console.error(err);
 
-            alert("Clone failed.");
+            toast.error("Clone Failed");
 
         }
 
@@ -76,13 +76,13 @@ function Repositories() {
 
             await buildIndex(repository);
 
-            alert("Index Built Successfully");
+            toast.success("Index Built Successfully");
 
         } catch (err) {
 
             console.error(err);
 
-            alert("Index Failed");
+            toast.error("Index Failed");
 
         }
 
@@ -94,13 +94,13 @@ function Repositories() {
 
             await analyzeRepository(repository);
 
-            alert("Analysis Completed");
+            toast.success("Analysis Completed");
 
         } catch (err) {
 
             console.error(err);
 
-            alert("Analysis Failed");
+            toast.error("Analysis Failed");
 
         }
 
@@ -112,7 +112,7 @@ function Repositories() {
 
             await reviewRepository(repository);
 
-            alert("Review Generated");
+            toast.success("Review Generated");
 
         } catch (err) {
 
@@ -219,8 +219,6 @@ function Repositories() {
                                 Review
 
                             </button>
-
-                            {/* 🚀 We'll connect this in the next milestone */}
 
                             <button
 

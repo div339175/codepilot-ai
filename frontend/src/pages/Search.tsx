@@ -1,8 +1,8 @@
 import { useState } from "react";
-
 import { semanticSearch } from "../api/search";
-
 import type { SearchResult } from "../types/search";
+import RepositorySelector from "../components/RepositorySelector";
+import toast from "react-hot-toast";
 
 function Search() {
 
@@ -28,12 +28,13 @@ function Search() {
             );
 
             setResults(data.results);
+            toast.success("Search Complete");
 
         } catch (err) {
 
             console.error(err);
 
-            alert("Search Failed");
+            toast.error("Search Failed");
 
         }
 
@@ -53,11 +54,9 @@ function Search() {
 
             <div className="bg-white rounded-xl shadow p-6">
 
-                <input
-                    className="border rounded w-full p-3 mb-4"
-                    placeholder="Repository Name"
+                <RepositorySelector
                     value={repository}
-                    onChange={(e)=>setRepository(e.target.value)}
+                    onChange={setRepository}
                 />
 
                 <input
