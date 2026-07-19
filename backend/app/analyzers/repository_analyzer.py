@@ -147,7 +147,7 @@ Folder Content:
 
         return detector.detect(repository)
     
-    def architecture(self, repository: str):
+    def analyze_architecture(self, repository: str):
 
         analyzer = ArchitectureAnalyzer()
 

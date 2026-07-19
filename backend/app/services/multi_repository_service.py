@@ -32,7 +32,7 @@ class MultiRepositoryService:
                 print(f"Found {len(results)} results")
                 all_results.extend(results)
 
-            except Exception:
+            except Exception as e:
                 print(f"Error in {repository}: {e}")
 
         all_results.sort(
