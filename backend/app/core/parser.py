@@ -137,3 +137,39 @@ def parse_repository(repo_path: Path):
 
     return metadata
 
+
+
+SUPPORTED_EXTENSIONS = {
+    ".py",
+    ".js",
+    ".ts",
+    ".jsx",
+    ".tsx",
+    ".java",
+    ".cpp",
+    ".c",
+    ".h",
+}
+
+
+def read_repository_code(repo_path: Path):
+
+    code = ""
+
+    for file in repo_path.rglob("*"):
+
+        if file.suffix.lower() not in SUPPORTED_EXTENSIONS:
+            continue
+
+        try:
+            content = file.read_text(encoding="utf-8")
+
+            code += f"\n\n===== {file.relative_to(repo_path)} =====\n"
+
+            code += content
+
+        except Exception:
+            pass
+
+    return code
+

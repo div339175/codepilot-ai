@@ -1,5 +1,4 @@
 import os
-
 import ollama
 
 from .base import LLMProvider
@@ -20,10 +19,21 @@ class OllamaProvider(LLMProvider):
             model=self.model,
             messages=[
                 {
+                    "role": "system",
+                    "content": (
+                        "You are an expert software engineer. "
+                        "Always follow the user's instructions exactly. "
+                        "If the user asks for JSON, return ONLY valid JSON."
+                    )
+                },
+                {
                     "role": "user",
                     "content": prompt
                 }
-            ]
+            ],
+            options={
+                "temperature": 0
+            }
         )
 
-        return response["message"]["content"]
+        return response["message"]["content"].strip()
