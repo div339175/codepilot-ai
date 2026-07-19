@@ -10,6 +10,7 @@ from app.api.search_all import router as search_all_router
 from app.api.cache import router as cache_router
 from app.api.dashboard import router as dashboard_router
 from app.api.review import router as review_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="CodePilot AI")
 
@@ -24,3 +25,12 @@ app.include_router(search_all_router)
 app.include_router(cache_router)
 app.include_router(dashboard_router)
 app.include_router(review_router)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
