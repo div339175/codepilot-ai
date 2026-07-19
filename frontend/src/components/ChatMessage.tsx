@@ -1,4 +1,5 @@
 import ReactMarkdown from "react-markdown";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 interface Source {
     file: string;
@@ -47,11 +48,9 @@ function ChatMessage({
 
                     <div className="prose max-w-none">
 
-                        <ReactMarkdown>
-
-                            {answer}
-
-                        </ReactMarkdown>
+                        <MarkdownRenderer
+                            content={answer}
+                        />
 
                     </div>
 
