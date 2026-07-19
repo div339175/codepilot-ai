@@ -1,5 +1,11 @@
 function Review() {
-  return <h1>AI Review</h1>;
+  return(
+    <div>
+      <h1 className="text-3xl font-bold">
+        Dashboard
+      </h1>
+    </div>
+  );
 }
 
 export default Review;
