@@ -1,10 +1,24 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Dashboard from "./pages/Dashboard";
+import Repositories from "./pages/Repositories";
+import Chat from "./pages/Chat";
+import Review from "./pages/Review";
+import Search from "./pages/Search";
+import NotFound from "./pages/NotFound";
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-5xl font-bold text-blue-600">
-        CodePilot AI
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/repositories" element={<Repositories />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/review" element={<Review />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
