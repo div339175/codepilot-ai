@@ -4,8 +4,6 @@ from app.core.llm import ask_llm
 
 class RepositoryService:
 
-    ...
-
     def ask(
         self,
         repository: str,
@@ -18,7 +16,14 @@ class RepositoryService:
             top_k=5
         )
 
+        if not results:
+            return {
+                "answer": "No relevant code found.",
+                "sources": []
+            }
+
         context = ""
+        sources = []
 
         for item in results:
 
@@ -36,12 +41,17 @@ Code:
 --------------------
 """
 
+            sources.append({
+                "file": item["file"],
+                "score": item["score"]
+            })
+
         prompt = f"""
 You are an expert software engineer.
 
 Answer ONLY using the provided repository context.
 
-If the answer is not present, say:
+If the answer is not present in the context, reply exactly:
 
 "I couldn't find this information inside the repository."
 
@@ -54,4 +64,9 @@ Question:
 {question}
 """
 
-        return ask_llm(prompt)
+        answer = ask_llm(prompt)
+
+        return {
+            "answer": answer,
+            "sources": sources
+        }
