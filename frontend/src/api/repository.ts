@@ -1,7 +1,11 @@
 import api from "./api";
 
+export interface Repository {
+    name: string;
+    indexed: boolean;
+}
 interface RepositoryListResponse {
-    repositories: string[];
+    repositories: Repository[];
 }
 
 export async function getRepositories(): Promise<RepositoryListResponse> {
