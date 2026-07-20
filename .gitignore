@@ -6,3 +6,4 @@ repos/
 .idea/
 .vscode/
 *.pyc
+node_modules/
