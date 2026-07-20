@@ -8,7 +8,6 @@ from app.core.vector_store import VectorStore
 
 def build_index(repo_path: Path):
 
-    # Repository name (e.g., codepilot-ai)
     repository = repo_path.name
 
     store = VectorStore()

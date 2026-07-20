@@ -17,6 +17,12 @@ IGNORE_DIRS = {
     ".vscode",
     ".pytest_cache",
     ".mypy_cache",
+    ".next",
+    ".cache",
+    "coverage",
+    "target",
+    "vendor",
+    "site-packages",
 }
 SUPPORTED_EXTENSIONS = {
     ".py",
