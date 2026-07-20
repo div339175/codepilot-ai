@@ -52,7 +52,7 @@ function Search() {
 
     return (
 
-        <PageContainer title="Dashboard">
+        <PageContainer title="Search">
 
             <div className="bg-white rounded-xl shadow p-6">
 
