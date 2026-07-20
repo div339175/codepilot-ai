@@ -17,12 +17,26 @@ class RepositoryRegistry:
 
         repositories = []
 
+        indexes_dir = Path("indexes")
+
         for repo in self.repo_dir.iterdir():
 
             if repo.is_dir():
-                repositories.append(repo.name)
 
-        return sorted(repositories)
+                indexed = (
+                    (indexes_dir / repo.name / "code.index").exists()
+                    and
+                    (indexes_dir / repo.name / "metadata.pkl").exists()
+                )
+
+                repositories.append(
+                    {
+                        "name": repo.name,
+                        "indexed": indexed,
+                    }
+                )
+
+        return sorted(repositories, key=lambda r: r["name"])
 
     def exists(self, repository: str):
         """

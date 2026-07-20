@@ -11,11 +11,16 @@ import {
     reviewRepository,
 } from "../api/repository";
 
-function Repositories() {
+    function Repositories() {
 
-    const [repositories, setRepositories] = useState<string[]>([]);
-    const [url, setUrl] = useState("");
-    const [loading, setLoading] = useState(false);
+        type Repository = {
+            name: string;
+            indexed: boolean;
+        };
+
+        const [repositories, setRepositories] = useState<Repository[]>([]);
+        const [url, setUrl] = useState("");
+        const [loading, setLoading] = useState(false);
 
     async function loadRepositories() {
 
@@ -76,8 +81,8 @@ function Repositories() {
         try {
 
             await buildIndex(repository);
-
-            toast.success("Index Built Successfully");
+            await loadRepositories();
+           toast.success("Index Built Successfully");
 
         } catch (err) {
 
@@ -166,23 +171,33 @@ function Repositories() {
 
                     <div
 
-                        key={repo}
+                        key={repo.name}
 
                         className="bg-white rounded-xl shadow p-6"
 
                     >
 
                         <h2 className="text-xl font-bold">
-
-                            📁 {repo}
-
+                            📁 {repo.name}
                         </h2>
+
+                        <p
+                            className={
+                                repo.indexed
+                                    ? "text-green-600 font-semibold mt-2"
+                                    : "text-red-600 font-semibold mt-2"
+                            }
+                        >
+                            {repo.indexed
+                                ? "✅ Index Ready"
+                                : "❌ Index Not Built"}
+                        </p>
 
                         <div className="flex gap-3 mt-5 flex-wrap">
 
                             <button
 
-                                onClick={() => handleIndex(repo)}
+                                onClick={() => handleIndex(repo.name)}
 
                                 className="bg-green-600 text-white px-4 py-2 rounded"
 
@@ -193,42 +208,46 @@ function Repositories() {
                             </button>
 
                             <button
-
-                                onClick={() => handleAnalysis(repo)}
-
-                                className="bg-blue-600 text-white px-4 py-2 rounded"
-
+                                disabled={!repo.indexed}
+                                title={!repo.indexed ? "Build the index first" : ""}
+                                onClick={() => handleAnalysis(repo.name)}
+                                className={`px-4 py-2 rounded text-white ${
+                                    repo.indexed
+                                        ? "bg-blue-600 hover:bg-blue-700"
+                                        : "bg-gray-400 cursor-not-allowed"
+                                }`}
                             >
-
                                 Analyze
-
                             </button>
 
                             <button
-
-                                onClick={() => handleReview(repo)}
-
-                                className="bg-purple-600 text-white px-4 py-2 rounded"
-
+                                disabled={!repo.indexed}
+                                title={!repo.indexed ? "Build the index first" : ""}
+                                onClick={() => handleReview(repo.name)}
+                                className={`px-4 py-2 rounded text-white ${
+                                    repo.indexed
+                                        ? "bg-purple-600 hover:bg-purple-700"
+                                        : "bg-gray-400 cursor-not-allowed"
+                                }`}
                             >
-
                                 Review
-
                             </button>
 
                             <button
-
-                                className="bg-orange-600 text-white px-4 py-2 rounded"
-
+                                disabled={!repo.indexed}
+                                title={!repo.indexed ? "Build the index first" : ""}
+                                className={`px-4 py-2 rounded text-white ${
+                                    repo.indexed
+                                        ? "bg-orange-600 hover:bg-orange-700"
+                                        : "bg-gray-400 cursor-not-allowed"
+                                }`}
                             >
-
                                 Chat
-
                             </button>
 
                             <button
 
-                                onClick={() => handleDelete(repo)}
+                                onClick={() => handleDelete(repo.name)}
 
                                 className="bg-red-600 text-white px-4 py-2 rounded"
 
