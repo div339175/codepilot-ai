@@ -14,11 +14,11 @@ function MarkdownRenderer({ content }: Props) {
         <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-                code({ inline, className, children, ...props }) {
+                code({ className, children, ...props }) {
 
                     const match = /language-(\w+)/.exec(className || "");
 
-                    if (!inline && match) {
+                    if (match) {
                         return (
                             <div className="border rounded-lg overflow-hidden">
 
