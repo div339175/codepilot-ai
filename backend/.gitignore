@@ -4,8 +4,15 @@ __pycache__/
 
 .env
 
+storage/
+indexes/
+analysis/
+reviews/
+
 indexes/
 analysis/
 reviews/
 
 .pytest_cache/
+
+repos/

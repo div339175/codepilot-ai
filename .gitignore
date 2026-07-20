@@ -1,9 +1,17 @@
+# Python
 venv/
 __pycache__/
-repos/
-.env
-.pytest_cache/
-.idea/
-.vscode/
 *.pyc
+.env
+
+# Node
 node_modules/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+
+# Build
+dist/
