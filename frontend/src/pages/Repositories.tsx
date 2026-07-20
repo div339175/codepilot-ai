@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import PageContainer from "../components/PageContainer";
 
 import {
     getRepositories,
@@ -126,13 +127,7 @@ function Repositories() {
 
     return (
 
-        <div>
-
-            <h1 className="text-3xl font-bold mb-6">
-
-                Repositories
-
-            </h1>
+        <PageContainer title="Repositories">
 
             <div className="bg-white rounded-xl shadow p-6 mb-8">
 
@@ -251,7 +246,7 @@ function Repositories() {
 
             </div>
 
-        </div>
+        </PageContainer>
 
     );
 

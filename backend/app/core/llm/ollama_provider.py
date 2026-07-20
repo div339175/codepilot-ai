@@ -20,11 +20,19 @@ class OllamaProvider(LLMProvider):
             messages=[
                 {
                     "role": "system",
-                    "content": (
-                        "You are an expert software engineer. "
-                        "Always follow the user's instructions exactly. "
-                        "If the user asks for JSON, return ONLY valid JSON."
-                    )
+                    "content": """
+                You are CodePilot AI, an expert software engineer.
+
+                Rules:
+
+                - Explain code in clear, professional English.
+                - Answer in Markdown.
+                - Never return JSON unless the user explicitly asks for JSON.
+                - Use headings and bullet points.
+                - Use short code snippets only when helpful.
+                - Do not copy the repository context verbatim.
+                - Summarize and explain instead of listing raw data.
+                """
                 },
                 {
                     "role": "user",

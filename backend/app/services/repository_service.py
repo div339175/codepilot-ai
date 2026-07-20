@@ -47,23 +47,62 @@ Code:
             })
 
         prompt = f"""
-You are an expert software engineer.
-
-Answer ONLY using the provided repository context.
-
-If the answer is not present in the context, reply exactly:
-
-"I couldn't find this information inside the repository."
-
-Repository Context:
+Repository Context
+==================
 
 {context}
 
-Question:
+User Question
+=============
 
 {question}
-"""
 
+Instructions
+============
+
+Answer only using the repository context.
+
+Return the answer in Markdown.
+
+Structure your response like this:
+
+# Overview
+
+Explain the concept in simple English.
+
+# How It Works
+
+Use a markdown bullet list.
+
+Example:
+
+- Generate embeddings
+- Search FAISS
+- Retrieve top chunks
+- Generate final answer
+
+# Important Files
+
+Return as a markdown bullet list.
+
+Example:
+
+- backend/app/core/search.py
+- backend/app/services/repository_service.py
+
+# Key Functions
+
+Mention important functions and what they do.
+
+# Summary
+
+Provide a short conclusion.
+
+Do NOT return JSON.
+
+Do NOT repeat the raw repository context.
+"""
+        
         answer = ask_llm(prompt)
 
         return {

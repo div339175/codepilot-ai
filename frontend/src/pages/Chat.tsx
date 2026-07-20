@@ -7,10 +7,16 @@ import ChatMessage from "../components/ChatMessage";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 import { useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
+import PageContainer from "../components/PageContainer";
 
 function Chat() {
 
-    const [repository, setRepository] = useState("");
+    const [searchParams] = useSearchParams();
+    const repositoryFromUrl = searchParams.get("repo");
+    const [repository, setRepository] = useState(
+        repositoryFromUrl ?? ""
+    );
 
     const [question, setQuestion] = useState("");
 
@@ -65,13 +71,7 @@ function Chat() {
 
     return (
 
-        <div>
-
-            <h1 className="text-3xl font-bold mb-6">
-
-                Repository Chat
-
-            </h1>
+        <PageContainer title="Chat">
 
             <div className="bg-white rounded-2xl shadow-lg p-6 border">
 
@@ -146,7 +146,7 @@ function Chat() {
 
             </div>
 
-        </div>
+        </PageContainer>
 
     );
 

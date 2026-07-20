@@ -12,7 +12,6 @@ class DashboardService:
         repositories = []
 
         languages = set()
-
         frameworks = set()
 
         if not self.analysis_dir.exists():
@@ -29,17 +28,26 @@ class DashboardService:
             with open(file, "r") as f:
                 data = json.load(f)
 
+            # ✅ Read tech_stack
+            tech_stack = data.get("tech_stack", {})
+
+            repo_languages = tech_stack.get("languages", [])
+            repo_frameworks = tech_stack.get("frameworks", [])
+
             repositories.append({
                 "repository": data["repository"],
                 "generated_at": data.get("generated_at"),
-                "languages": data.get("languages", []),
-                "frameworks": data.get("frameworks", []),
-                "summary_length": data.get("summary_length", 0),
-                "architecture_length": data.get("architecture_length", 0)
+
+                "languages": repo_languages,
+                "frameworks": repo_frameworks,
+
+                # Better values than 0
+                "summary_length": len(data.get("summary", "")),
+                "architecture_length": len(data.get("architecture", ""))
             })
 
-            languages.update(data.get("languages", []))
-            frameworks.update(data.get("frameworks", []))
+            languages.update(repo_languages)
+            frameworks.update(repo_frameworks)
 
         return {
             "total_repositories": len(repositories),

@@ -1,96 +1,125 @@
 import { useEffect, useState } from "react";
 import { getDashboard } from "../api/dashboard";
-import type { DashboardResponse} from "../types/dashboard";
+import type { DashboardResponse } from "../types/dashboard";
+import PageContainer from "../components/PageContainer";
+
+import {
+    FaFolder,
+    FaSearch,
+    FaRobot,
+    FaComments,
+} from "react-icons/fa";
+
+import StatCard from "../components/StatCard";
+import RepositoryCard from "../components/RepositoryCard";
 
 function Dashboard() {
-  const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadDashboard() {
-      try {
-        const data = await getDashboard();
-        setDashboard(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+    const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        async function loadDashboard() {
+
+            try {
+
+                const data = await getDashboard();
+
+                setDashboard(data);
+
+            } catch (error) {
+
+                console.error(error);
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        }
+
+        loadDashboard();
+
+    }, []);
+
+    if (loading) {
+
+        return <h2>Loading...</h2>;
+
     }
 
-    loadDashboard();
-  }, []);
+    if (!dashboard) {
 
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
+        return <h2>Failed to load dashboard.</h2>;
 
-  if (!dashboard) {
-    return <h2>Failed to load dashboard.</h2>;
-  }
+    }
 
-  return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">
-        Dashboard
-      </h1>
+    return (
 
-      <div className="grid grid-cols-3 gap-6 mb-8">
+        <PageContainer title="Dashboard">
 
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-gray-500">Repositories</h2>
-          <p className="text-4xl font-bold">
-            {dashboard.total_repositories}
-          </p>
-        </div>
+            {/* Statistics */}
 
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-gray-500">Languages</h2>
-          <p className="text-4xl font-bold">
-            {dashboard.total_languages}
-          </p>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-gray-500">Frameworks</h2>
-          <p className="text-4xl font-bold">
-            {dashboard.total_frameworks}
-          </p>
-        </div>
+                <StatCard
+                    title="Repositories"
+                    value={dashboard.total_repositories}
+                    icon={FaFolder}
+                />
 
-      </div>
+                <StatCard
+                    title="Languages"
+                    value={dashboard.total_languages}
+                    icon={FaSearch}
+                />
 
-      <div className="bg-white rounded-xl shadow p-6">
+                <StatCard
+                    title="Frameworks"
+                    value={dashboard.total_frameworks}
+                    icon={FaRobot}
+                />
 
-        <h2 className="text-xl font-semibold mb-4">
-          Repositories
-        </h2>
+                <StatCard
+                    title="Analyzed"
+                    value={dashboard.analyzed_repositories}
+                    icon={FaComments}
+                />
 
-        {dashboard.repositories.map((repo) => (
+            </div>
 
-          <div
-            key={repo.repository}
-            className="border rounded-lg p-4 mb-4"
-          >
-            <h3 className="font-bold">
-              {repo.repository}
-            </h3>
+            {/* Repository Overview */}
 
-            <p>
-              Languages: {repo.languages.join(", ")}
-            </p>
+            <div className="mt-10">
 
-            <p>
-              Frameworks: {repo.frameworks.join(", ")}
-            </p>
+                <h2 className="text-2xl font-bold mb-5">
 
-          </div>
+                    Repository Overview
 
-        ))}
+                </h2>
 
-      </div>
-    </div>
-  );
+                <div className="space-y-5">
+
+                    {dashboard.repositories.map((repo) => (
+
+                        <RepositoryCard
+                            key={repo.repository}
+                            repository={repo}
+                        />
+
+                    ))}
+
+                </div>
+
+            </div>
+
+        </PageContainer>
+
+    );
+
 }
 
 export default Dashboard;

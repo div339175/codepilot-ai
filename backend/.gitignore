@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+
+.env
+
+indexes/
+analysis/
+reviews/
+
+.pytest_cache/

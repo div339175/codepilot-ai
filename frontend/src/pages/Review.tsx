@@ -6,10 +6,18 @@ import type { Review } from "../types/review";
 import RepositorySelector from "../components/RepositorySelector";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
+import { useSearchParams } from "react-router-dom";
+import PageContainer from "../components/PageContainer";
 
 function ReviewPage() {
 
-    const [repository, setRepository] = useState("");
+    const [searchParams] = useSearchParams();
+
+    const repositoryFromUrl = searchParams.get("repo");
+
+    const [repository, setRepository] = useState(
+        repositoryFromUrl ?? ""
+    );
 
     const [review, setReview] = useState<Review | null>(null);
 
@@ -42,13 +50,7 @@ function ReviewPage() {
 
     return (
 
-        <div>
-
-            <h1 className="text-3xl font-bold mb-6">
-
-                AI Review
-
-            </h1>
+        <PageContainer title="Review">
 
             <div className="bg-white rounded-xl shadow p-6 mb-8">
 
@@ -75,7 +77,7 @@ function ReviewPage() {
                             visible={true}
                         />
                     )}
-                    
+
                     {loading ? "Generating..." : "Generate Review"}
 
                 </button>
@@ -143,7 +145,7 @@ function ReviewPage() {
 
             )}
 
-        </div>
+        </PageContainer>
 
     );
 

@@ -4,10 +4,17 @@ import type { SearchResult } from "../types/search";
 import RepositorySelector from "../components/RepositorySelector";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
+import { useSearchParams } from "react-router-dom";
+import PageContainer from "../components/PageContainer";
 
 function Search() {
 
-    const [repository, setRepository] = useState("");
+    const [searchParams] = useSearchParams();
+
+    const repositoryFromUrl = searchParams.get("repo");
+    const [repository, setRepository] = useState(
+        repositoryFromUrl ?? ""
+    );
 
     const [query, setQuery] = useState("");
 
@@ -45,13 +52,7 @@ function Search() {
 
     return (
 
-        <div>
-
-            <h1 className="text-3xl font-bold mb-6">
-
-                Semantic Search
-
-            </h1>
+        <PageContainer title="Dashboard">
 
             <div className="bg-white rounded-xl shadow p-6">
 
@@ -129,7 +130,7 @@ function Search() {
 
             </div>
 
-        </div>
+        </PageContainer>
 
     );
 
