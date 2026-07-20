@@ -1,4 +1,5 @@
 from pathlib import Path
+import traceback
 
 from app.core.parser import parse_repository
 from app.core.chunker import chunk_text
@@ -8,31 +9,53 @@ from app.core.vector_store import VectorStore
 
 def build_index(repo_path: Path):
 
-    repository = repo_path.name
+    try:
+        repository = repo_path.name
 
-    store = VectorStore()
+        print(f"Starting index build for: {repository}")
 
-    files = parse_repository(repo_path)
+        store = VectorStore()
 
-    for file in files:
+        files = parse_repository(repo_path)
 
-        chunks = chunk_text(file.content)
+        print(f"Found {len(files)} files")
 
-        for chunk in chunks:
+        for i, file in enumerate(files, start=1):
 
-            embedding = generate_embedding(chunk)
+            print(f"[{i}/{len(files)}] Processing {file.path}")
 
-            store.add(
-                embedding,
-                {
-                    "repository": repository,
-                    "file": file.path,
-                    "language": file.language,
-                    "chunk": chunk
-                }
-            )
+            chunks = chunk_text(file.content)
 
-    # Save inside indexes/<repository>/
-    store.save(repository)
+            for chunk in chunks:
 
-    return store
+                embedding = generate_embedding(chunk)
+
+                store.add(
+                    embedding,
+                    {
+                        "repository": repository,
+                        "file": file.path,
+                        "language": file.language,
+                        "chunk": chunk
+                    }
+                )
+
+        print("Saving FAISS index...")
+
+        store.save(repository)
+
+        print("Index build completed successfully.")
+
+        return store
+
+    except Exception as e:
+
+        print("=" * 60)
+        print("INDEX BUILD FAILED")
+        print("=" * 60)
+        print(f"Repository: {repo_path}")
+        print(f"Error: {e}")
+        traceback.print_exc()
+        print("=" * 60)
+
+        raise

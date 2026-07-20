@@ -1,14 +1,12 @@
 from sentence_transformers import SentenceTransformer
 
-# Load the model only once
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
+def generate_embeddings(texts: list[str]) -> list[list[float]]:
+    embeddings = model.encode(
+        texts,
+        convert_to_numpy=True,
+        show_progress_bar=False
+    )
 
-def generate_embedding(text: str) -> list[float]:
-    """
-    Generate embedding for a single text chunk.
-    """
-
-    embedding = model.encode(text)
-
-    return embedding.tolist()
+    return embeddings.tolist()
