@@ -2,7 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+
 import toast from "react-hot-toast";
 
 interface Props {
@@ -26,14 +26,15 @@ function MarkdownRenderer({ content }: Props) {
 
                                 <span>{match[1]}</span>
 
-                                <CopyToClipboard
-                                    text={String(children)}
-                                    onCopy={() => toast.success("Code copied")}
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(String(children).replace(/\n$/, ""));
+                                        toast.success("Code copied");
+                                    }}
+                                    className="text-sm hover:underline"
                                 >
-                                    <button className="text-sm hover:underline">
-                                        Copy
-                                    </button>
-                                </CopyToClipboard>
+                                    Copy
+                                </button>
 
                             </div>
 
