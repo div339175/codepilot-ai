@@ -8,6 +8,7 @@ import Search from "./pages/Search";
 import Review from "./pages/Review";
 import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
+import RepositoryDetails from "./pages/RepositoryDetails";
 
 function App() {
   return (
@@ -45,6 +46,11 @@ function App() {
           path="*"
           element={<NotFound />}
         />
+
+        <Route
+            path="/repository/:repository"
+            element={<RepositoryDetails />}
+         />
 
       </Routes>
 

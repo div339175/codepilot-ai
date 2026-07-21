@@ -1,24 +1,18 @@
 import { useEffect, useState } from "react";
 
+import type { Repository } from "../api/repository";
 import { getRepositories } from "../api/repository";
-
 interface Props {
-
     value: string;
-
     onChange: (value: string) => void;
-
 }
 
 function RepositorySelector({
-
     value,
-
-    onChange
-
+    onChange,
 }: Props) {
 
-    const [repositories, setRepositories] = useState<string[]>([]);
+    const [repositories, setRepositories] = useState<Repository[]>([]);
 
     useEffect(() => {
 
@@ -45,33 +39,22 @@ function RepositorySelector({
     return (
 
         <select
-
             value={value}
-
-            onChange={(e)=>onChange(e.target.value)}
-
+            onChange={(e) => onChange(e.target.value)}
             className="border rounded-lg w-full p-3"
-
         >
 
             <option value="">
-
                 Select Repository
-
             </option>
 
-            {repositories.map((repo)=>(
+            {repositories.map((repo) => (
 
                 <option
-
-                    key={repo}
-
-                    value={repo}
-
+                    key={repo.name}
+                    value={repo.name}
                 >
-
-                    {repo}
-
+                    {repo.name}
                 </option>
 
             ))}

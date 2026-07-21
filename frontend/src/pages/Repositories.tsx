@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import PageContainer from "../components/PageContainer";
+import { useNavigate } from "react-router-dom";
 
 import {
     getRepositories,
     cloneRepository,
     deleteRepository,
     buildIndex,
-    analyzeRepository,
-    reviewRepository,
 } from "../api/repository";
 
     function Repositories() {
@@ -21,6 +20,7 @@ import {
         const [repositories, setRepositories] = useState<Repository[]>([]);
         const [url, setUrl] = useState("");
         const [loading, setLoading] = useState(false);
+        const navigate = useNavigate();
 
     async function loadRepositories() {
 
@@ -93,42 +93,45 @@ import {
         }
 
     }
-
-    async function handleAnalysis(repository: string) {
-
-        try {
-
-            await analyzeRepository(repository);
-
-            toast.success("Analysis Completed");
-
-        } catch (err) {
-
-            console.error(err);
-
-            toast.error("Analysis Failed");
-
+        function handleOpenRepository(repository: string) {
+            navigate(`/repository/${repository}`);
         }
 
-    }
+    // async function handleAnalysis(repository: string) {
 
-    async function handleReview(repository: string) {
+    //     try {
 
-        try {
+    //         await analyzeRepository(repository);
 
-            await reviewRepository(repository);
+    //         toast.success("Analysis Completed");
 
-            toast.success("Review Generated");
+    //     } catch (err) {
 
-        } catch (err) {
+    //         console.error(err);
 
-            console.error(err);
+    //         toast.error("Analysis Failed");
 
-            alert("Review Failed");
+    //     }
 
-        }
+    // }
 
-    }
+    // async function handleReview(repository: string) {
+
+    //     try {
+
+    //         await reviewRepository(repository);
+
+    //         toast.success("Review Generated");
+
+    //     } catch (err) {
+
+    //         console.error(err);
+
+    //         alert("Review Failed");
+
+    //     }
+
+    // }
 
     return (
 
@@ -207,7 +210,7 @@ import {
 
                             </button>
 
-                            <button
+                            {/* <button
                                 disabled={!repo.indexed}
                                 title={!repo.indexed ? "Build the index first" : ""}
                                 onClick={() => handleAnalysis(repo.name)}
@@ -218,9 +221,9 @@ import {
                                 }`}
                             >
                                 Analyze
-                            </button>
+                            </button> */}
 
-                            <button
+                            {/* <button
                                 disabled={!repo.indexed}
                                 title={!repo.indexed ? "Build the index first" : ""}
                                 onClick={() => handleReview(repo.name)}
@@ -231,9 +234,9 @@ import {
                                 }`}
                             >
                                 Review
-                            </button>
+                            </button> */}
 
-                            <button
+                            {/* <button
                                 disabled={!repo.indexed}
                                 title={!repo.indexed ? "Build the index first" : ""}
                                 className={`px-4 py-2 rounded text-white ${
@@ -243,6 +246,18 @@ import {
                                 }`}
                             >
                                 Chat
+                            </button> */}
+
+                            <button
+                                disabled={!repo.indexed}
+                                onClick={() => handleOpenRepository(repo.name)}
+                                className={`px-4 py-2 rounded text-white ${
+                                    repo.indexed
+                                        ? "bg-blue-600 hover:bg-blue-700"
+                                        : "bg-gray-400 cursor-not-allowed"
+                                }`}
+                            >
+                                Open Repository
                             </button>
 
                             <button
