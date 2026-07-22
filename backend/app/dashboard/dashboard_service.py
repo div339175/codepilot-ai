@@ -9,6 +9,12 @@ class DashboardService:
 
     def overview(self):
 
+        print("Dashboard endpoint called")
+
+        print("Analysis directory:", self.analysis_dir.resolve())
+        print("Exists:", self.analysis_dir.exists())
+        print("Files:", list(self.analysis_dir.glob("*.json")))
+
         repositories = []
 
         languages = set()
