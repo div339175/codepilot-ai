@@ -21,6 +21,7 @@ import {
         const [url, setUrl] = useState("");
         const [loading, setLoading] = useState(false);
         const navigate = useNavigate();
+        const [buildingRepositories, setBuildingRepositories] = useState<Set<string>>(new Set());
 
     async function loadRepositories() {
 
@@ -78,11 +79,20 @@ import {
 
     async function handleIndex(repository: string) {
 
+    // Mark as building
+        setBuildingRepositories(prev => {
+            const next = new Set(prev);
+            next.add(repository);
+            return next;
+        });
+
         try {
 
             await buildIndex(repository);
+
             await loadRepositories();
-           toast.success("Index Built Successfully");
+
+            toast.success("Index Built Successfully");
 
         } catch (err) {
 
@@ -90,9 +100,19 @@ import {
 
             toast.error("Index Failed");
 
-        }
+        } finally {
 
+            // Remove building state
+            setBuildingRepositories(prev => {
+                const next = new Set(prev);
+                next.delete(repository);
+                return next;
+            });
+
+        }
     }
+
+    
         function handleOpenRepository(repository: string) {
             navigate(`/repository/${repository}`);
         }
@@ -149,29 +169,35 @@ import {
                         </h2>
 
                         <p
-                            className={
-                                repo.indexed
-                                    ? "text-green-600 font-semibold mt-2"
-                                    : "text-red-600 font-semibold mt-2"
-                            }
+                                className={
+                                    buildingRepositories.has(repo.name)
+                                        ? "text-yellow-600 font-semibold mt-2"
+                                        : repo.indexed
+                                            ? "text-green-600 font-semibold mt-2"
+                                            : "text-red-600 font-semibold mt-2"
+                                }
                         >
-                            {repo.indexed
-                                ? "✅ Index Ready"
-                                : "❌ Index Not Built"}
+                            {buildingRepositories.has(repo.name)
+                                ? "⏳ Building Index..."
+                                : repo.indexed
+                                    ? "✅ Index Ready"
+                                    : "❌ Index Not Built"}
                         </p>
 
                         <div className="flex gap-3 mt-5 flex-wrap">
 
                             <button
-
+                                disabled={buildingRepositories.has(repo.name)}
                                 onClick={() => handleIndex(repo.name)}
-
-                                className="bg-green-600 text-white px-4 py-2 rounded"
-
+                                className={`px-4 py-2 rounded font-medium transition-colors ${
+                                    buildingRepositories.has(repo.name)
+                                        ? "bg-yellow-500 text-white cursor-not-allowed"
+                                        : "bg-green-600 hover:bg-green-700 text-white"
+                                }`}
                             >
-
-                                Build Index
-
+                                {buildingRepositories.has(repo.name)
+                                    ? "⏳ Building..."
+                                    : "Build Index"}
                             </button>
 
                             <button
