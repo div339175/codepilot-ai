@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
 import PageContainer from "../components/PageContainer";
 import FileExplorer from "../components/workspace/FileExplorer";
 import CodeViewer from "../components/workspace/CodeViewer";
@@ -43,38 +44,59 @@ export default function RepositoryDetails() {
     }, [repository, selectedFile]);
 
     return (
+    <PageContainer title="Repository WorkSpace">
 
-        <PageContainer title="Repository Workspace">
+        <div className="h-[88vh]">
 
-            <div className="grid grid-cols-12 gap-6 h-[75vh]">
+            <Allotment>
 
-                <div className="col-span-3">
+                {/* Explorer */}
+
+                <Allotment.Pane
+                    preferredSize={280}
+                    minSize={220}
+                >
 
                     <FileExplorer
                         onSelectFile={setSelectedFile}
                     />
 
-                </div>
+                </Allotment.Pane>
 
-                <div className="col-span-6">
+                {/* Code */}
+
+                <Allotment.Pane
+                    preferredSize={700}
+                    minSize={350}
+                >
 
                     <CodeViewer
                         filePath={selectedFile}
                         content={fileContent}
                     />
 
-                </div>
+                </Allotment.Pane>
 
-                <div className="col-span-3">
+                {/* AI */}
 
-                    <AIWorkspace />
+                <Allotment.Pane
+                    preferredSize={500}
+                    minSize={320}
+                >
 
-                </div>
+                    <AIWorkspace
+                        repository={repository ?? ""}
+                        selectedFile={selectedFile}
+                        fileContent={fileContent}
+                    />
 
-            </div>
+                </Allotment.Pane>
 
-        </PageContainer>
+            </Allotment>
 
-    );
+        </div>
+
+    </PageContainer>
+);
 
 }

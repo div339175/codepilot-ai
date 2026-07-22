@@ -97,42 +97,6 @@ import {
             navigate(`/repository/${repository}`);
         }
 
-    // async function handleAnalysis(repository: string) {
-
-    //     try {
-
-    //         await analyzeRepository(repository);
-
-    //         toast.success("Analysis Completed");
-
-    //     } catch (err) {
-
-    //         console.error(err);
-
-    //         toast.error("Analysis Failed");
-
-    //     }
-
-    // }
-
-    // async function handleReview(repository: string) {
-
-    //     try {
-
-    //         await reviewRepository(repository);
-
-    //         toast.success("Review Generated");
-
-    //     } catch (err) {
-
-    //         console.error(err);
-
-    //         alert("Review Failed");
-
-    //     }
-
-    // }
-
     return (
 
         <PageContainer title="Repositories">
@@ -209,44 +173,6 @@ import {
                                 Build Index
 
                             </button>
-
-                            {/* <button
-                                disabled={!repo.indexed}
-                                title={!repo.indexed ? "Build the index first" : ""}
-                                onClick={() => handleAnalysis(repo.name)}
-                                className={`px-4 py-2 rounded text-white ${
-                                    repo.indexed
-                                        ? "bg-blue-600 hover:bg-blue-700"
-                                        : "bg-gray-400 cursor-not-allowed"
-                                }`}
-                            >
-                                Analyze
-                            </button> */}
-
-                            {/* <button
-                                disabled={!repo.indexed}
-                                title={!repo.indexed ? "Build the index first" : ""}
-                                onClick={() => handleReview(repo.name)}
-                                className={`px-4 py-2 rounded text-white ${
-                                    repo.indexed
-                                        ? "bg-purple-600 hover:bg-purple-700"
-                                        : "bg-gray-400 cursor-not-allowed"
-                                }`}
-                            >
-                                Review
-                            </button> */}
-
-                            {/* <button
-                                disabled={!repo.indexed}
-                                title={!repo.indexed ? "Build the index first" : ""}
-                                className={`px-4 py-2 rounded text-white ${
-                                    repo.indexed
-                                        ? "bg-orange-600 hover:bg-orange-700"
-                                        : "bg-gray-400 cursor-not-allowed"
-                                }`}
-                            >
-                                Chat
-                            </button> */}
 
                             <button
                                 disabled={!repo.indexed}
