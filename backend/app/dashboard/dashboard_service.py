@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import os
 
 
 class DashboardService:
@@ -9,18 +10,21 @@ class DashboardService:
 
     def overview(self):
 
+        print("=" * 60)
         print("Dashboard endpoint called")
-
-        print("Analysis directory:", self.analysis_dir.resolve())
-        print("Exists:", self.analysis_dir.exists())
-        print("Files:", list(self.analysis_dir.glob("*.json")))
+        print("Current Working Directory:", os.getcwd())
+        print("Analysis Directory:", self.analysis_dir.resolve())
+        print("Analysis Exists:", self.analysis_dir.exists())
+        print("Files Found:", list(self.analysis_dir.glob("*.json")))
+        print("=" * 60)
 
         repositories = []
-
         languages = set()
         frameworks = set()
 
         if not self.analysis_dir.exists():
+            print("Analysis directory does not exist!")
+
             return {
                 "total_repositories": 0,
                 "analyzed_repositories": 0,
@@ -31,33 +35,47 @@ class DashboardService:
 
         for file in self.analysis_dir.glob("*.json"):
 
-            with open(file, "r") as f:
-                data = json.load(f)
+            print(f"\nReading file: {file}")
 
-            # ✅ Read tech_stack
-            tech_stack = data.get("tech_stack", {})
+            try:
 
-            repo_languages = tech_stack.get("languages", [])
-            repo_frameworks = tech_stack.get("frameworks", [])
+                with open(file, "r") as f:
+                    data = json.load(f)
 
-            repositories.append({
-                "repository": data["repository"],
-                "generated_at": data.get("generated_at"),
+                print("Repository:", data.get("repository"))
+                print("Keys:", list(data.keys()))
 
-                "languages": repo_languages,
-                "frameworks": repo_frameworks,
+                tech_stack = data.get("tech_stack", {})
 
-                # Better values than 0
-                "summary_length": len(data.get("summary", "")),
-                "architecture_length": len(data.get("architecture", ""))
-            })
+                repo_languages = tech_stack.get("languages", [])
+                repo_frameworks = tech_stack.get("frameworks", [])
 
-            languages.update(repo_languages)
-            frameworks.update(repo_frameworks)
-            print("Returning:", {
-                "total_repositories": len(repositories),
-                "repositories": repositories
-            })
+                repositories.append({
+                    "repository": data.get("repository"),
+                    "generated_at": data.get("generated_at"),
+                    "languages": repo_languages,
+                    "frameworks": repo_frameworks,
+                    "summary_length": len(data.get("summary", "")),
+                    "architecture_length": len(data.get("architecture", ""))
+                })
+
+                languages.update(repo_languages)
+                frameworks.update(repo_frameworks)
+
+            except Exception as e:
+                print(f"ERROR while reading {file}: {e}")
+
+        print("\nRepositories List:")
+        print(repositories)
+
+        print("\nReturning Dashboard:")
+        print({
+            "total_repositories": len(repositories),
+            "analyzed_repositories": len(repositories),
+            "total_languages": len(languages),
+            "total_frameworks": len(frameworks),
+            "repositories": repositories
+        })
 
         return {
             "total_repositories": len(repositories),

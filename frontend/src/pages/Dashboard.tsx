@@ -26,7 +26,8 @@ function Dashboard() {
             try {
 
                 const data = await getDashboard();
-
+                console.log("Dashboard Response:", data);
+                console.log("Repositories:", data.repositories);
                 setDashboard(data);
 
             } catch (error) {
