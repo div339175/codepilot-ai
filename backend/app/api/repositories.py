@@ -3,6 +3,8 @@ from fastapi import Query
 from app.core.repository_registry import RepositoryRegistry
 from app.services.explorer_service import ExplorerService
 from app.services.file_service import FileService
+from pathlib import Path
+from app.core.tree_builder import build_tree
 
 explorer = ExplorerService()
 file_service = FileService()
@@ -13,7 +15,6 @@ router = APIRouter(
 )
 
 registry = RepositoryRegistry()
-
 
 @router.get("/")
 def list_repositories():
@@ -92,3 +93,8 @@ def repository_file(
                 status_code=400,
                 detail="Cannot open folder"
             )
+        
+@router.get("/repository-tree")
+def repository_tree(repo_path: str):
+    path = Path(repo_path)
+    return build_tree(path, path)

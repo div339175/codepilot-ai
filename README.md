@@ -1,6 +1,6 @@
 # 🚀 CodePilot AI
 
-> AI-powered GitHub Repository Analyzer with Semantic Search, AI Code Review, Repository Chat, and Interactive Dashboard.
+> AI-powered GitHub Repository Analyzer with Semantic Search, AI Code Review, Repository Chat, Repository WorkSpace and Interactive Dashboard.
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
@@ -19,6 +19,14 @@ Instead of manually browsing hundreds of files, developers can:
 - 💬 Chat with an entire repository
 - 🤖 Generate AI-powered code reviews
 - 📊 Explore repository insights through an interactive dashboard
+
+---
+
+# 🌟 Why CodePilot AI?
+
+Modern software repositories often contain thousands of files, making it difficult for developers to quickly understand unfamiliar codebases.
+
+CodePilot AI leverages semantic search, vector embeddings, and Large Language Models (LLMs) to enable developers to explore repositories using natural language instead of manually navigating source code.
 
 ---
 
@@ -236,6 +244,14 @@ http://localhost:5173
 
 ---
 
+## 🎥 Demo Video
+
+Watch the complete project demonstration here:
+
+https://youtu.be/ibzjirhTFIQ
+
+---
+
 # 📸 Screenshots
 
 ## Dashboard
@@ -254,6 +270,12 @@ http://localhost:5173
 
 ![Repository Chat](assets/chat.png)
 ![Repository Chat](assets/chatAi.png)
+
+---
+
+## Repository WorkSpace
+
+![Repository WorkSpace](assets/Repository_WorkSpace.png)
 
 ---
 
@@ -276,13 +298,20 @@ http://localhost:8000/docs
 
 # 🚀 Future Improvements
 
-- User authentication
-- Repository history
-- Multi-user support
-- PDF report generation
-- Repository comparison
-- Docker deployment
-- Kubernetes support
+The following features are planned for future releases:
+
+- 🔜 AI-powered code generation
+- 🔜 AI-assisted code editing
+- 🔜 Code diff preview before applying changes
+- 🔜 Multi-file context support
+- 🔜 Automatic repository context detection
+- 🔜 Drag-and-drop support for images, PDFs, and documentation
+- 🔜 Integrated terminal
+- 🔜 Streaming AI responses
+- 🔜 Voice commands and speech-to-text
+- 🔜 Repository dependency graph visualization
+- 🔜 Authentication and user accounts
+- 🔜 Repository history and chat memory
 
 ---
 
@@ -311,19 +340,6 @@ git push origin feature/new-feature
 
 5. Open a Pull Request
 
----
-
-# 🚀 Future Roadmap
-
-- User Authentication
-- Repository Comparison
-- Multi-user Workspace
-- Docker Deployment
-- Kubernetes Deployment
-- PDF Report Export
-- CI/CD Integration
-
----
 
 # 👨‍💻 Author
 

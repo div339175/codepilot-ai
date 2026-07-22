@@ -6,13 +6,15 @@ import PageContainer from "../components/PageContainer";
 import FileExplorer from "../components/workspace/FileExplorer";
 import CodeViewer from "../components/workspace/CodeViewer";
 import AIWorkspace from "../components/workspace/AIWorkspace";
-
 import { getFile } from "../api/file";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function RepositoryDetails() {
 
     const { repository } = useParams();
-
+    const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const [fileContent, setFileContent] = useState("");
 
@@ -20,13 +22,17 @@ export default function RepositoryDetails() {
 
         if (!repository || !selectedFile) return;
 
+        // Create local constants after the guard
+        const repo = repository;
+        const file = selectedFile;
+
         async function loadFile() {
 
             try {
 
                 const data = await getFile(
-                    repository,
-                    selectedFile
+                    repo,
+                    file
                 );
 
                 setFileContent(data.content);
@@ -44,7 +50,18 @@ export default function RepositoryDetails() {
     }, [repository, selectedFile]);
 
     return (
-    <PageContainer title="Repository WorkSpace">
+            <PageContainer
+                title="Repository Workspace"
+                action={
+                <button
+                    onClick={() => navigate("/repositories")}
+                    className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition"
+                >
+                    <ArrowLeft size={18} />
+                    Back to Repositories
+                </button>
+              }
+           >
 
         <div className="h-[88vh]">
 
