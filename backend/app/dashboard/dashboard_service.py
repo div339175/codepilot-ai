@@ -54,6 +54,10 @@ class DashboardService:
 
             languages.update(repo_languages)
             frameworks.update(repo_frameworks)
+            print("Returning:", {
+                "total_repositories": len(repositories),
+                "repositories": repositories
+            })
 
         return {
             "total_repositories": len(repositories),
