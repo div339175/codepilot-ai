@@ -5,8 +5,9 @@ import json
 class DashboardService:
 
     def __init__(self):
+        self.repos_dir = Path("repos")
+        self.indexes_dir = Path("indexes")
         self.analysis_dir = Path("analysis")
-        self.repo_dir = Path("repos")
 
     def overview(self):
 
@@ -14,7 +15,7 @@ class DashboardService:
         languages = set()
         frameworks = set()
 
-        if not self.analysis_dir.exists():
+        if not self.repos_dir.exists():
             return {
                 "total_repositories": 0,
                 "analyzed_repositories": 0,
@@ -23,66 +24,102 @@ class DashboardService:
                 "repositories": []
             }
 
-        for file in self.analysis_dir.glob("*.json"):
+        for repo in sorted(self.repos_dir.iterdir()):
 
-            try:
+            if not repo.is_dir():
+                continue
 
-                with open(file, "r") as f:
-                    data = json.load(f)
+            repo_name = repo.name
 
-                tech_stack = data.get("tech_stack", {})
+            # -------- Repository Paths --------
+            repo_path = self.repos_dir / repo_name
+            index_dir = self.indexes_dir / repo_name
+            analysis_file = self.analysis_dir / f"{repo_name}.json"
 
-                repo_languages = tech_stack.get("languages", [])
-                repo_frameworks = tech_stack.get("frameworks", [])
+            # -------- Status --------
+            indexed = (
+                (index_dir / "code.index").exists()
+                and
+                (index_dir / "metadata.pkl").exists()
+            )
 
-                # Repository path
-                repo_name = data.get("repository")
-                repo_path = self.repo_dir / repo_name
+            analyzed = analysis_file.exists()
 
-                # Count files
-                file_count = 0
+            status = (
+                "Ready"
+                if analyzed
+                else "Indexed"
+                if indexed
+                else "Not Indexed"
+            )
 
-                if repo_path.exists():
-                    file_count = sum(
-                        1 for f in repo_path.rglob("*")
-                        if f.is_file()
+            # -------- Defaults --------
+            repo_languages = []
+            repo_frameworks = []
+            generated_at = None
+            analysis_ready = False
+
+            # -------- Read Analysis (if exists) --------
+            if analyzed:
+                try:
+                    with open(analysis_file, "r") as f:
+                        data = json.load(f)
+
+                    tech_stack = data.get("tech_stack", {})
+
+                    repo_languages = tech_stack.get("languages", [])
+                    repo_frameworks = tech_stack.get("frameworks", [])
+
+                    generated_at = data.get("generated_at")
+
+                    analysis_ready = (
+                        bool(data.get("summary"))
+                        and bool(data.get("architecture"))
                     )
 
-                # Repository size (MB)
-                total_size = 0
+                    languages.update(repo_languages)
+                    frameworks.update(repo_frameworks)
 
-                if repo_path.exists():
-                    total_size = sum(
-                        f.stat().st_size
-                        for f in repo_path.rglob("*")
-                        if f.is_file()
-                    )
+                except Exception as e:
+                    print(f"Error reading {analysis_file}: {e}")
 
-                repo_size = round(total_size / (1024 * 1024), 2)
+            # -------- Repository Stats --------
+            file_count = sum(
+                1 for f in repo_path.rglob("*")
+                if f.is_file()
+            )
 
-                repositories.append({
-                    "repository": repo_name,
-                    "generated_at": data.get("generated_at"),
-                    "languages": repo_languages,
-                    "frameworks": repo_frameworks,
+            total_size = sum(
+                f.stat().st_size
+                for f in repo_path.rglob("*")
+                if f.is_file()
+            )
 
-                    "file_count": file_count,
-                    "repository_size": f"{repo_size} MB",
+            repo_size = round(total_size / (1024 * 1024), 2)
 
-                    "analysis_ready": bool(data.get("summary"))
-                    and bool(data.get("architecture"))
-                })
+            repositories.append({
+                "repository": repo_name,
+                "status": status,
+                "indexed": indexed,
+                "analyzed": analyzed,
 
-                languages.update(repo_languages)
-                frameworks.update(repo_frameworks)
+                "generated_at": generated_at,
 
-            except Exception as e:
-                print(f"ERROR while reading {file}: {e}")
+                "languages": repo_languages,
+                "frameworks": repo_frameworks,
+
+                "file_count": file_count,
+                "repository_size": f"{repo_size} MB",
+
+                "analysis_ready": analysis_ready,
+            })
 
         return {
             "total_repositories": len(repositories),
-            "analyzed_repositories": len(repositories),
+            "analyzed_repositories": sum(
+                repo["analyzed"] for repo in repositories
+            ),
             "total_languages": len(languages),
             "total_frameworks": len(frameworks),
-            "repositories": repositories
+            "repositories": repositories,
         }

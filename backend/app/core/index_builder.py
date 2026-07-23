@@ -6,7 +6,7 @@ from app.core.chunker import chunk_text
 from app.core.embeddings import generate_embedding
 from app.core.vector_store import VectorStore
 
-BATCH_SIZE = 128
+BATCH_SIZE = 256
 
 def build_index(repo_path: Path):
 

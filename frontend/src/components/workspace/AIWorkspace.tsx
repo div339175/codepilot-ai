@@ -158,7 +158,16 @@ export default function AIWorkspace({
                             >
 
                                   {message.role === "assistant" ? (
-                                    <div className="prose prose-lg max-w-none">
+                                    <div className="
+                                        prose
+                                        max-w-none
+                                        prose-headings:font-bold
+                                        prose-h1:text-3xl
+                                        prose-h2:text-2xl
+                                        prose-h3:text-xl
+                                        prose-p:text-gray-700
+                                        prose-li:text-gray-700
+                                    ">
                                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                             {message.content}
                                         </ReactMarkdown>
