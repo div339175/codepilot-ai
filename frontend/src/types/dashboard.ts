@@ -3,8 +3,9 @@ export interface Repository {
   generated_at: string | null;
   languages: string[];
   frameworks: string[];
-  summary_length: number;
-  architecture_length: number;
+  file_count: number;
+  repository_size: string;
+  analysis_ready: boolean;
 }
 
 export interface DashboardResponse {

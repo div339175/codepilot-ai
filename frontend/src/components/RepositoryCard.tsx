@@ -120,19 +120,19 @@ function RepositoryCard({ repository }: Props) {
 
             {/* Quick Stats */}
 
-            <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="grid grid-cols-3 gap-4 mt-6">
 
                 <div className="bg-gray-50 rounded-lg p-3">
 
                     <p className="text-sm text-gray-500">
 
-                        Summary
+                        📄 Files
 
                     </p>
 
-                    <p className="font-bold">
+                    <p className="font-bold text-lg">
 
-                        {repository.summary_length}
+                        {repository.file_count}
 
                     </p>
 
@@ -142,13 +142,35 @@ function RepositoryCard({ repository }: Props) {
 
                     <p className="text-sm text-gray-500">
 
-                        Architecture
+                        📦 Size
 
                     </p>
 
-                    <p className="font-bold">
+                    <p className="font-bold text-lg">
 
-                        {repository.architecture_length}
+                        {repository.repository_size}
+
+                    </p>
+
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-3">
+
+                    <p className="text-sm text-gray-500">
+
+                        🤖 AI Status
+
+                    </p>
+
+                    <p
+                        className={`font-bold text-lg ${
+                            repository.analysis_ready
+                                ? "text-green-600"
+                                : "text-yellow-600"
+                        }`}
+                    >
+
+                        {repository.analysis_ready ? "Ready" : "Pending"}
 
                     </p>
 
