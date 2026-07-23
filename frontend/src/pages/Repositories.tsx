@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import PageContainer from "../components/PageContainer";
 import { useNavigate } from "react-router-dom";
+import type { Repository } from "../types/repository";
+
 
 import {
     getRepositories,
@@ -12,16 +14,10 @@ import {
 
     function Repositories() {
 
-        type Repository = {
-            name: string;
-            indexed: boolean;
-        };
-
         const [repositories, setRepositories] = useState<Repository[]>([]);
         const [url, setUrl] = useState("");
         const [loading, setLoading] = useState(false);
         const navigate = useNavigate();
-        const [buildingRepositories, setBuildingRepositories] = useState<Set<string>>(new Set());
 
     async function loadRepositories() {
 
@@ -38,7 +34,13 @@ import {
     }
 
     useEffect(() => {
+
         loadRepositories();
+
+        const interval = setInterval(loadRepositories, 3000);
+
+        return () => clearInterval(interval);
+
     }, []);
 
     async function handleClone() {
@@ -78,41 +80,20 @@ import {
     }
 
     async function handleIndex(repository: string) {
-
-    // Mark as building
-        setBuildingRepositories(prev => {
-            const next = new Set(prev);
-            next.add(repository);
-            return next;
-        });
-
         try {
-
             await buildIndex(repository);
 
-            await loadRepositories();
+            toast.success("Repository processing started");
 
-            toast.success("Index Built Successfully");
+            loadRepositories();
 
         } catch (err) {
-
             console.error(err);
 
-            toast.error("Index Failed");
-
-        } finally {
-
-            // Remove building state
-            setBuildingRepositories(prev => {
-                const next = new Set(prev);
-                next.delete(repository);
-                return next;
-            });
-
+            toast.error("Failed to start processing");
         }
     }
-
-    
+        
         function handleOpenRepository(repository: string) {
             navigate(`/repository/${repository}`);
         }
@@ -169,35 +150,50 @@ import {
                         </h2>
 
                         <p
-                                className={
-                                    buildingRepositories.has(repo.name)
-                                        ? "text-yellow-600 font-semibold mt-2"
-                                        : repo.indexed
-                                            ? "text-green-600 font-semibold mt-2"
-                                            : "text-red-600 font-semibold mt-2"
-                                }
+                            className={
+                                repo.status === "Indexing"
+                                    ? "text-yellow-600 font-semibold mt-2"
+                                    : repo.status === "Analyzing"
+                                    ? "text-blue-600 font-semibold mt-2"
+                                    : repo.status === "Ready"
+                                    ? "text-green-600 font-semibold mt-2"
+                                    : repo.status === "Indexed"
+                                    ? "text-purple-600 font-semibold mt-2"
+                                    : "text-red-600 font-semibold mt-2"
+                            }
                         >
-                            {buildingRepositories.has(repo.name)
+                            {repo.status === "Indexing"
                                 ? "⏳ Building Index..."
-                                : repo.indexed
-                                    ? "✅ Index Ready"
-                                    : "❌ Index Not Built"}
+                                : repo.status === "Analyzing"
+                                ? "🤖 Analyzing Repository..."
+                                : repo.status === "Ready"
+                                ? "✅ Ready"
+                                : repo.status === "Indexed"
+                                ? "📦 Indexed"
+                                : "❌ Not Indexed"}
+                        
                         </p>
 
                         <div className="flex gap-3 mt-5 flex-wrap">
 
                             <button
-                                disabled={buildingRepositories.has(repo.name)}
+                                disabled={
+                                    repo.status === "Indexing" ||
+                                    repo.status === "Analyzing"
+                                }
                                 onClick={() => handleIndex(repo.name)}
                                 className={`px-4 py-2 rounded font-medium transition-colors ${
-                                    buildingRepositories.has(repo.name)
+                                    repo.status === "Indexing" ||
+                                     repo.status === "Analyzing"
                                         ? "bg-yellow-500 text-white cursor-not-allowed"
                                         : "bg-green-600 hover:bg-green-700 text-white"
                                 }`}
                             >
-                                {buildingRepositories.has(repo.name)
-                                    ? "⏳ Building..."
-                                    : "Build Index"}
+                                {repo.status === "Indexing"
+                                        ? "⏳ Building..."
+                                        : repo.status === "Analyzing"
+                                        ? "🤖 Analyzing..."
+                                        : "Build Index"}
                             </button>
 
                             <button

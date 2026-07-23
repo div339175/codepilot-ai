@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import type { Repository } from "../api/repository";
+import type { Repository } from "../types/repository";
 import { getRepositories } from "../api/repository";
 interface Props {
     value: string;

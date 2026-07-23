@@ -1,5 +1,6 @@
 from pathlib import Path
 import shutil
+import json
 
 
 class RepositoryRegistry:
@@ -21,21 +22,39 @@ class RepositoryRegistry:
 
         for repo in self.repo_dir.iterdir():
 
-            if repo.is_dir():
+            if not repo.is_dir():
+                continue
 
-                indexed = (
-                    (indexes_dir / repo.name / "code.index").exists()
-                    and
-                    (indexes_dir / repo.name / "metadata.pkl").exists()
-                )
+            indexed = (
+                (indexes_dir / repo.name / "code.index").exists()
+                and
+                (indexes_dir / repo.name / "metadata.pkl").exists()
+            )
 
-                repositories.append(
-                    {
-                        "name": repo.name,
-                        "indexed": indexed,
-                    }
-                )
+            status = "Not Indexed"
 
+            if indexed:
+                status = "Indexed"
+
+            analysis_file = Path("analysis") / f"{repo.name}.json"
+
+            if analysis_file.exists():
+                try:
+                    with open(analysis_file, "r") as f:
+                        data = json.load(f)
+
+                    status = data.get("status", "Ready")
+
+                except Exception:
+                    pass
+
+            repositories.append(
+                {
+                    "name": repo.name,
+                    "indexed": indexed,
+                    "status": status,
+                }
+            )
         return sorted(repositories, key=lambda r: r["name"])
 
     def exists(self, repository: str):

@@ -1,9 +1,6 @@
 import api from "./api";
+import type { Repository } from "../types/repository";
 
-export interface Repository {
-    name: string;
-    indexed: boolean;
-}
 interface RepositoryListResponse {
     repositories: Repository[];
 }
