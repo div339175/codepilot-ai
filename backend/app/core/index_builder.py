@@ -6,6 +6,7 @@ from app.core.chunker import chunk_text
 from app.core.embeddings import generate_embedding
 from app.core.vector_store import VectorStore
 
+BATCH_SIZE = 128
 
 def build_index(repo_path: Path):
 
@@ -20,24 +21,50 @@ def build_index(repo_path: Path):
 
         print(f"Found {len(files)} files")
 
+        all_chunks = []
+        all_metadata = []
+
         for i, file in enumerate(files, start=1):
 
             print(f"[{i}/{len(files)}] Processing {file.path}")
 
             chunks = chunk_text(file.content)
+            
+            if not chunks:
+                continue
 
             for chunk in chunks:
 
-                embedding = generate_embedding(chunk)
+                all_chunks.append(chunk)
 
-                store.add(
-                    embedding,
+                all_metadata.append(
                     {
                         "repository": repository,
                         "file": file.path,
                         "language": file.language,
-                        "chunk": chunk
+                        "chunk": chunk,
                     }
+                )
+        print(f"Generated {len(all_chunks)} chunks")
+        
+        # Generate embeddings in batches
+        for i in range(0, len(all_chunks), BATCH_SIZE):
+
+            batch_chunks = all_chunks[i:i + BATCH_SIZE]
+            batch_metadata = all_metadata[i:i + BATCH_SIZE]
+
+            print(
+                f"Embedding batch {i // BATCH_SIZE + 1} "
+                f"({len(batch_chunks)} chunks)"
+            )
+
+            embeddings = generate_embedding(batch_chunks)
+
+            for embedding, metadata in zip(embeddings, batch_metadata):
+
+                store.add(
+                    embedding,
+                    metadata
                 )
 
         print("Saving FAISS index...")
