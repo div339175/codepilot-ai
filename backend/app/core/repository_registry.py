@@ -46,16 +46,26 @@ class RepositoryRegistry:
         return (self.repo_dir / repository).exists()
 
     def delete(self, repository: str):
-        """
-        Delete a repository.
-        """
-
+        
+        # Delete repository
         repo_path = self.repo_dir / repository
+        if repo_path.exists():
+            shutil.rmtree(repo_path)
 
-        if not repo_path.exists():
-            return False
+        # Delete FAISS index
+        index_path = Path("indexes") / repository
+        if index_path.exists():
+            shutil.rmtree(index_path)
 
-        shutil.rmtree(repo_path)
+        # Delete analysis cache
+        analysis_file = Path("analysis") / f"{repository}.json"
+        if analysis_file.exists():
+            analysis_file.unlink()
+
+        # Delete review cache
+        review_file = Path("reviews") / f"{repository}.json"
+        if review_file.exists():
+            review_file.unlink()
 
         return True
 
