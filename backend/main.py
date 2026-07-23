@@ -11,9 +11,13 @@ from app.api.cache import router as cache_router
 from app.api.dashboard import router as dashboard_router
 from app.api.review import router as review_router
 from fastapi.middleware.cors import CORSMiddleware
+from app.core.analysis_cache import AnalysisCache
 
 app = FastAPI(title="CodePilot AI")
-
+cache = AnalysisCache()
+def startup():
+    cache.recover_incomplete_jobs()
+    
 app.include_router(router)
 app.include_router(parser_router)
 app.include_router(index_router)
