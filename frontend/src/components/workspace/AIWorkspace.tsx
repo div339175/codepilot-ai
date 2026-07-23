@@ -2,6 +2,8 @@ import { Bot } from "lucide-react";
 import { useState } from "react";
 import { askAgent } from "../../api/agent";
 import { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Props = {
     repository: string;
@@ -155,7 +157,15 @@ export default function AIWorkspace({
                                 }
                             >
 
-                                {message.content}
+                                  {message.role === "assistant" ? (
+                                    <div className="prose prose-lg max-w-none">
+                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                            {message.content}
+                                        </ReactMarkdown>
+                                    </div>
+                                ) : (
+                                    message.content
+                                )}
 
                             </div>
 
