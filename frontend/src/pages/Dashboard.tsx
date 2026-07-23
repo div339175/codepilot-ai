@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getDashboard } from "../api/dashboard";
 import type { DashboardResponse } from "../types/dashboard";
 import PageContainer from "../components/PageContainer";
+import type { Repository } from "../types/dashboard";
 
 import {
     FaFolder,
@@ -21,14 +22,33 @@ function Dashboard() {
 
     useEffect(() => {
 
+        let interval: ReturnType<typeof setInterval>;
+
         async function loadDashboard() {
 
             try {
 
                 const data = await getDashboard();
-                console.log("Dashboard Response:", data);
-                console.log("Repositories:", data.repositories);
+
                 setDashboard(data);
+
+                const processing = data.repositories.some(
+                    (repo: Repository) =>
+                        repo.status === "Indexing" ||
+                        repo.status === "Analyzing"
+                );
+
+                if (processing && !interval) {
+
+                    interval = setInterval(loadDashboard, 3000);
+
+                }
+
+                if (!processing && interval) {
+
+                    clearInterval(interval);
+
+                }
 
             } catch (error) {
 
@@ -43,6 +63,16 @@ function Dashboard() {
         }
 
         loadDashboard();
+
+        return () => {
+
+            if (interval) {
+
+                clearInterval(interval);
+
+            }
+
+        };
 
     }, []);
 

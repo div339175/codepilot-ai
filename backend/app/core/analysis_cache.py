@@ -36,3 +36,12 @@ class AnalysisCache:
 
         if file.exists():
             file.unlink()
+
+    def update_status(self, repository: str, status: str):
+
+        data = self.load(repository) or {}
+
+        data["status"] = status
+
+        self.save(repository, data)
+    

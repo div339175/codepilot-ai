@@ -8,6 +8,7 @@ from app.analyzers.architecture_analyzer import ArchitectureAnalyzer
 from app.analyzers.api_doc_analyzer import APIDocumentationAnalyzer
 
 
+
 class RepositoryAnalyzer:
 
     def generate_summary(self, repository: str):

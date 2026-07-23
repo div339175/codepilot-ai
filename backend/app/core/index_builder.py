@@ -5,6 +5,9 @@ from app.core.parser import parse_repository
 from app.core.chunker import chunk_text
 from app.core.embeddings import generate_embedding
 from app.core.vector_store import VectorStore
+from app.core.analysis_cache import AnalysisCache
+
+cache = AnalysisCache()
 
 BATCH_SIZE = 256
 
@@ -12,6 +15,17 @@ def build_index(repo_path: Path):
 
     try:
         repository = repo_path.name
+        cache.save(
+            repository,
+            {
+                "repository": repository,
+                "status": "Indexing",
+                "summary": None,
+                "architecture": None,
+                "tech_stack": {},
+                "generated_at": None,
+            }
+        )
 
         print(f"Starting index build for: {repository}")
 

@@ -45,25 +45,25 @@ class DashboardService:
 
             analyzed = analysis_file.exists()
 
-            status = (
-                "Ready"
-                if analyzed
-                else "Indexed"
-                if indexed
-                else "Not Indexed"
-            )
+            status = "Not Indexed"
+
+            if indexed:
+                status = "Indexed"
 
             # -------- Defaults --------
             repo_languages = []
             repo_frameworks = []
             generated_at = None
             analysis_ready = False
+            data = {}
 
-            # -------- Read Analysis (if exists) --------
+            # -------- Read Analysis --------
             if analyzed:
                 try:
                     with open(analysis_file, "r") as f:
                         data = json.load(f)
+
+                    status = data.get("status", "Ready")
 
                     tech_stack = data.get("tech_stack", {})
 
