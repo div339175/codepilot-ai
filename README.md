@@ -54,6 +54,18 @@ Examples:
 
 ---
 
+### 📂 Repository Workspace
+
+Navigate the repository structure, open source files, and interact with 
+individual files using AI.Understand implementations, inspect code,
+and perform file-level analysis without leaving the workspace.
+
+Examples:
+
+- Explain this file
+- Summarize the selected module
+- Review this implementation
+
 ### 🤖 AI Code Review
 
 Automatically review code and identify:
